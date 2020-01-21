@@ -121,7 +121,7 @@ func (a AssertableStringSlice) IsEqualTo(expected interface{}, customMessage ...
 	switch v := expected.(type) {
 	case []string:
 		a.HasSize(len(v))
-		if !reflect.DeepEqual(a, expected) {
+		if !reflect.DeepEqual(a.Actual, expected) {
 			a.T.Error(message)
 		}
 	default:
