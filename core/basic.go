@@ -78,3 +78,15 @@ func (a CommonAssertable) IsLessOrEqualTo(assertable BasicAssertable, expected i
 		a.T.Error(ShouldBeLessOrEqual(assertable, expected))
 	}
 }
+
+func (a CommonAssertable) IsNil(assertable BasicAssertable) {
+	if assertable.Value() != nil {
+		a.T.Error(ShouldBeNil(assertable))
+	}
+}
+
+func (a CommonAssertable) IsNotNil(assertable BasicAssertable) {
+	if assertable.Value() == nil {
+		a.T.Error(ShouldNotBeNil(assertable))
+	}
+}

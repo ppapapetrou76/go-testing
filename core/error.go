@@ -36,3 +36,10 @@ func ShouldNotBeEmpty(actual ContainableAssertable) string {
 	return fmt.Sprintf("assertion failed: expected %+v not to be empty, but it is", actual.Value())
 }
 
+func ShouldBeNil(actual BasicAssertable) string {
+	return fmt.Sprintf("assertion failed: expected value of = %+v, to be nil but it wasn't", actual.Value())
+}
+
+func ShouldNotBeNil(actual BasicAssertable) string {
+	return fmt.Sprintf("assertion failed: expected value of = %+v, to be non-nil but it was", actual.Value())
+}
