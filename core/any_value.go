@@ -2,6 +2,7 @@ package core
 
 import (
 	"fmt"
+	"reflect"
 )
 
 type AnyValue struct {
@@ -9,7 +10,24 @@ type AnyValue struct {
 }
 
 func (s AnyValue) IsEqualTo(expected interface{}) bool {
-	return s.value == expected
+	switch expected.(type) {
+	case string:
+		return s.value == expected
+	case int:
+		return s.value == expected
+	case int8:
+		return s.value == expected
+	case int16:
+		return s.value == expected
+	case int32:
+		return s.value == expected
+	case int64:
+		return s.value == expected
+	case bool:
+		return s.value == expected
+	default:
+		return reflect.DeepEqual(s.value, expected)
+	}
 }
 
 func (s AnyValue) IsNotEqualTo(expected interface{}) bool {
@@ -35,7 +53,6 @@ func (s AnyValue) IsLessThan(expected interface{}) bool {
 func (s AnyValue) IsLessOrEqualTo(expected interface{}) bool {
 	return s.value != expected
 }
-
 
 func NewAnyValue(value interface{}) AnyValue {
 	switch v := value.(type) {
