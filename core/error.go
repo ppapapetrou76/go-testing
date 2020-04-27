@@ -4,11 +4,11 @@ import (
 	"fmt"
 )
 
-func ShouldBeEqual(actual BasicAssertable, expected interface{}) string {
+func ShouldBeEqual(actual Assertable, expected interface{}) string {
 	return fmt.Sprintf("assertion failed: expected value of = %+v, to be equal to %+v", actual.Value(), expected)
 }
 
-func ShouldNotBeEqual(actual BasicAssertable, expected interface{}) string {
+func ShouldNotBeEqual(actual Assertable, expected interface{}) string {
 	return fmt.Sprintf("assertion failed: expected value of = %+v, to be other than %+v", actual.Value(), expected)
 }
 

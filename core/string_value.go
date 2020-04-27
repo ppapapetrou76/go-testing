@@ -7,7 +7,7 @@ import (
 )
 
 type StringValue struct {
-	t *testing.T
+	t     *testing.T
 	value string
 }
 

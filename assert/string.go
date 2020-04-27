@@ -9,14 +9,16 @@ import (
 // AssertableString is the implementation of CommonAssertable for string types
 type AssertableString struct {
 	common      core.CommonAssertable
+	containable core.CommonContainableAssertable
 	actual      core.StringValue
 }
 
 // ThatString returns an AssertableString structure initialized with the test reference and the actual value to assert
 func ThatString(t *testing.T, actual string) AssertableString {
 	return AssertableString{
-		common: core.CommonAssertable{T: t},
-		actual: core.NewStringValue(actual, t),
+		common:      core.CommonAssertable{T: t},
+		containable: core.CommonContainableAssertable{T: t},
+		actual:      core.NewStringValue(actual, t),
 	}
 }
 
@@ -65,13 +67,13 @@ func (a AssertableString) IsLessThanOrEqualTo(expected string) AssertableString 
 // IsEmpty asserts if the expected string is empty
 // It errors the tests if the string is not empty
 func (a AssertableString) IsEmpty() AssertableString {
-	a.actual.IsEmpty()
+	a.containable.IsEmpty(a.actual)
 	return a
 }
 
 // IsNotEmpty asserts if the expected string is not empty
 // It errors the tests if the string is empty
 func (a AssertableString) IsNotEmpty() AssertableString {
-	a.actual.IsNotEmpty()
+	a.containable.IsNotEmpty(a.actual)
 	return a
 }

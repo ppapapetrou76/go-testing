@@ -36,7 +36,6 @@ func (s BoolValue) IsLessOrEqualTo(expected interface{}) bool {
 	return s.value != expected
 }
 
-
 func NewBoolValue(value interface{}) BoolValue {
 	switch v := value.(type) {
 	case bool:

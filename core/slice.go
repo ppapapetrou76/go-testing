@@ -8,5 +8,3 @@ type AssertableSlice interface {
 	IsEqualTo(expected interface{}, customMessage ...string) AssertableSlice
 	IsNotEmpty(customMessage ...string) AssertableSlice
 }
-
-

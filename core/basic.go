@@ -4,14 +4,18 @@ import (
 	"testing"
 )
 
-type BasicAssertable interface {
+type Assertable interface {
 	IsEqualTo(expected interface{}) bool
+	IsNotEqualTo(expected interface{}) bool
+	Value() interface{}
+}
+
+type BasicAssertable interface {
+	Assertable
 	IsGreaterOrEqualTo(expected interface{}) bool
 	IsGreaterThan(expected interface{}) bool
 	IsLessThan(expected interface{}) bool
 	IsLessOrEqualTo(expected interface{}) bool
-	IsNotEqualTo(expected interface{}) bool
-	Value() interface{}
 }
 
 type ContainableAssertable interface {
@@ -43,13 +47,13 @@ type CommonAssertable struct {
 	T *testing.T
 }
 
-func (a CommonAssertable) IsEqualTo(assertable BasicAssertable, expected interface{}) {
+func (a CommonAssertable) IsEqualTo(assertable Assertable, expected interface{}) {
 	if !assertable.IsEqualTo(expected) {
 		a.T.Error(ShouldBeEqual(assertable, expected))
 	}
 }
 
-func (a CommonAssertable) IsNotEqualTo(assertable BasicAssertable, expected interface{}) {
+func (a CommonAssertable) IsNotEqualTo(assertable Assertable, expected interface{}) {
 	if assertable.IsEqualTo(expected) {
 		a.T.Error(ShouldNotBeEqual(assertable, expected))
 	}

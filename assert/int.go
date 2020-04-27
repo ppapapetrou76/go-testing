@@ -1,8 +1,9 @@
 package assert
 
 import (
-	"github.com/ppapapetrou76/go-testing/core"
 	"testing"
+
+	"github.com/ppapapetrou76/go-testing/core"
 )
 
 // AssertableInt

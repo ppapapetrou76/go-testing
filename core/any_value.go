@@ -56,9 +56,9 @@ func (s AnyValue) IsLessOrEqualTo(expected interface{}) bool {
 
 func NewAnyValue(value interface{}) AnyValue {
 	switch v := value.(type) {
-	case interface{}:
-		return AnyValue{value: v}
 	case nil:
+		return AnyValue{value: v}
+	case interface{}:
 		return AnyValue{value: v}
 	default:
 		panic(fmt.Sprintf("expected interface{} value type but got %T type", v))
