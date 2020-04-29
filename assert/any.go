@@ -3,50 +3,65 @@ package assert
 import (
 	"testing"
 
-	"github.com/ppapapetrou76/go-testing/core"
+	"github.com/ppapapetrou76/go-testing/internal/pkg/types"
 )
 
 // Assertable is the assertable structure for interface{} values
 type Assertable struct {
-	common core.CommonAssertable
-	actual core.AnyValue
+	t      *testing.T
+	actual types.AnyValue
 }
 
 // That returns an Assertable structure initialized with the test reference and the actual value to assert
 func That(t *testing.T, actual interface{}) Assertable {
 	return Assertable{
-		common: core.CommonAssertable{T: t},
-		actual: core.NewAnyValue(actual),
+		t:      t,
+		actual: types.NewAnyValue(actual),
 	}
 }
 
 // IsEqualTo asserts if the expected interface is equal to the assertable value
 // It errors the tests if the compared values (actual VS expected) are not equal
 func (a Assertable) IsEqualTo(expected interface{}) Assertable {
-	a.common.IsEqualTo(a.actual, expected)
+	if !a.actual.IsEqualTo(expected) {
+		a.t.Error(ShouldBeEqual(a.actual, expected))
+	}
+	return a
+}
+
+// IsNotEqualTo asserts if the expected interface is not qual to the assertable value
+// It errors the tests if the compared values (actual VS expected) are equal
+func (a Assertable) IsNotEqualTo(expected interface{}) Assertable {
+	if !a.actual.IsNotEqualTo(expected) {
+		a.t.Error(ShouldNotBeEqual(a.actual, expected))
+	}
 	return a
 }
 
 // IsNil asserts if the expected value is nil
 func (a Assertable) IsNil() Assertable {
-	a.common.IsNil(a.actual)
+	if !a.actual.IsNil() {
+		a.t.Error(ShouldBeNil(a.actual))
+	}
 	return a
 }
 
 // IsNotNil asserts if the expected value is not nil
 func (a Assertable) IsNotNil() Assertable {
-	a.common.IsNotNil(a.actual)
+	if !a.actual.IsNotNil() {
+		a.t.Error(ShouldNotBeNil(a.actual))
+	}
 	return a
 }
 
 // IsTrue asserts if the expected value is true
 func (a Assertable) IsTrue() Assertable {
-	a.common.IsEqualTo(a.actual, true)
+	a.IsEqualTo(true)
 	return a
 }
 
 // IsFalse asserts if the expected value is false
 func (a Assertable) IsFalse() Assertable {
-	a.common.IsEqualTo(a.actual, false)
+	a.IsEqualTo(false)
 	return a
 }

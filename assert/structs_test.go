@@ -59,8 +59,9 @@ func TestAssertableStruct(t *testing.T) {
 				Struct1: struct{ valueStruct1 string }{valueStruct1: "!23"},
 			},
 			expected: randomStruct{
-				Field1: "value1",
-				Field2: 10,
+				Field1:  "value1",
+				Field2:  10,
+				Struct1: struct{ valueStruct1 string }{valueStruct1: "123"},
 			},
 			shouldFail: true,
 		},
@@ -80,12 +81,14 @@ func TestAssertableStruct(t *testing.T) {
 		{
 			name: "should assert equal structures excluding a field",
 			actual: randomStruct{
-				Field1: "string1",
-				Field2: 10,
+				Field1:  "string1",
+				Field2:  10,
+				Struct1: struct{ valueStruct1 string }{valueStruct1: "!23"},
 			},
 			expected: randomStruct{
-				Field1: "Field1",
-				Field2: 10,
+				Field1:  "Field1",
+				Field2:  10,
+				Struct1: struct{ valueStruct1 string }{valueStruct1: "!23"},
 			},
 			excludingFields: []string{"Field1"},
 		},
@@ -283,6 +286,19 @@ func TestAssertableStruct(t *testing.T) {
 				},
 			},
 			shouldFail: true,
+		},
+		{
+			name: "should assert equal structures as pointers",
+			actual: &randomStruct{
+				Field1:  "value1",
+				Field2:  10,
+				Struct1: struct{ valueStruct1 string }{valueStruct1: "!23"},
+			},
+			expected: &randomStruct{
+				Field1:  "value1",
+				Field2:  10,
+				Struct1: struct{ valueStruct1 string }{valueStruct1: "!23"},
+			},
 		},
 	}
 	for _, tt := range tests {

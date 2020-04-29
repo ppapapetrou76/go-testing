@@ -3,27 +3,38 @@ package assert
 import (
 	"testing"
 
-	"github.com/ppapapetrou76/go-testing/core"
+	"github.com/ppapapetrou76/go-testing/internal/pkg/types"
 )
 
 // AssertableBool is the assertable structure for bool values
 type AssertableBool struct {
-	common core.CommonAssertable
-	actual core.BoolValue
+	t      *testing.T
+	actual types.BoolValue
 }
 
-// ThatBool returns an AssertableString structure initialized with the test reference and the actual bool value to assert
+// ThatBool returns an AssertableBool structure initialized with the test reference and the actual bool value to assert
 func ThatBool(t *testing.T, actual bool) AssertableBool {
 	return AssertableBool{
-		common: core.CommonAssertable{T: t},
-		actual: core.NewBoolValue(actual),
+		t:      t,
+		actual: types.NewBoolValue(actual),
 	}
 }
 
 // IsEqualTo asserts if the expected bool is equal to the assertable bool value
 // It errors the tests if the compared values (actual VS expected) are not equal
-func (a AssertableBool) IsEqualTo(expected bool) AssertableBool {
-	a.common.IsEqualTo(a.actual, expected)
+func (a AssertableBool) IsEqualTo(expected interface{}) AssertableBool {
+	if !a.actual.IsEqualTo(expected) {
+		a.t.Error(ShouldBeEqual(a.actual, expected))
+	}
+	return a
+}
+
+// IsEqualTo asserts if the expected bool is not equal to the assertable bool value
+// It errors the tests if the compared values (actual VS expected) are equal
+func (a AssertableBool) IsNotEqualTo(expected interface{}) AssertableBool {
+	if a.actual.IsEqualTo(expected) {
+		a.t.Error(ShouldNotBeEqual(a.actual, expected))
+	}
 	return a
 }
 

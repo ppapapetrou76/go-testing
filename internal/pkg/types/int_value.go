@@ -1,4 +1,4 @@
-package core
+package types
 
 import (
 	"fmt"
@@ -46,8 +46,8 @@ func (i IntValue) greaterOrEqual(expected IntValue) bool {
 
 func NewIntValue(value interface{}) IntValue {
 	switch v := value.(type) {
-	case int:
-		return IntValue{value: v}
+	case int, int8, int16, int32, int64:
+		return IntValue{value: value.(int)}
 	default:
 		panic(fmt.Sprintf("expected int value type but got %T type", v))
 	}

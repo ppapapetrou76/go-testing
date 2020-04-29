@@ -106,7 +106,8 @@ func TestAssertableString_IsNotEqualTo(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			test := &testing.T{}
-			ThatString(test, tt.actual).IsNotEqualTo(tt.expected)
+			ft := NewFluentT(test)
+			ft.AssertThatString(tt.actual).IsNotEqualTo(tt.expected)
 			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
 		})
 	}

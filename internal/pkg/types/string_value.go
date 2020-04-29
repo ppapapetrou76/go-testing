@@ -1,13 +1,11 @@
-package core
+package types
 
 import (
 	"fmt"
 	"strings"
-	"testing"
 )
 
 type StringValue struct {
-	t     *testing.T
 	value string
 }
 
@@ -24,11 +22,11 @@ func (s StringValue) Value() interface{} {
 }
 
 func (s StringValue) IsGreaterThan(expected interface{}) bool {
-	return s.greaterThan(NewStringValue(expected, nil))
+	return s.greaterThan(NewStringValue(expected))
 }
 
 func (s StringValue) IsGreaterOrEqualTo(expected interface{}) bool {
-	return s.greaterOrEqual(NewStringValue(expected, nil))
+	return s.greaterOrEqual(NewStringValue(expected))
 }
 
 func (s StringValue) IsLessThan(expected interface{}) bool {
@@ -47,22 +45,23 @@ func (s StringValue) IsNotEmpty() bool {
 	return !s.IsEmpty()
 }
 
-func (s StringValue) Contains(elements ...interface{}) bool {
-	for _, e := range elements {
-		if !strings.Contains(s.value, NewStringValue(e, nil).value) {
-			return false
-		}
-	}
+func (s StringValue) Contains(element interface{}) bool {
+	return strings.Contains(s.value, NewStringValue(element).value)
+}
 
+func (s StringValue) DoesNotContain(elements interface{}) bool {
 	return true
 }
 
-func (s StringValue) Len() int {
+func (s StringValue) HasSize(length int) bool {
+	return len(s.value) == length
+}
+func (s StringValue) Size() int {
 	return len(s.value)
 }
 
-func (s StringValue) ContainsOnly(elements ...interface{}) bool {
-	return len(s.value) == len(elements) && s.Contains(elements)
+func (s StringValue) ContainsOnly(elements interface{}) bool {
+	return s.IsEqualTo(elements)
 }
 
 func (s StringValue) greaterThan(expected StringValue) bool {
@@ -73,10 +72,10 @@ func (s StringValue) greaterOrEqual(expected StringValue) bool {
 	return s.value >= expected.value
 }
 
-func NewStringValue(value interface{}, t *testing.T) StringValue {
+func NewStringValue(value interface{}) StringValue {
 	switch v := value.(type) {
 	case string:
-		return StringValue{value: v, t: t}
+		return StringValue{value: v}
 	default:
 		panic(fmt.Sprintf("expected string value type but got %T type", v))
 	}

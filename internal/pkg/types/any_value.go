@@ -1,4 +1,4 @@
-package core
+package types
 
 import (
 	"fmt"
@@ -10,28 +10,24 @@ type AnyValue struct {
 }
 
 func (s AnyValue) IsEqualTo(expected interface{}) bool {
+	var comparable Comparable
+
 	switch expected.(type) {
 	case string:
-		return s.value == expected
-	case int:
-		return s.value == expected
-	case int8:
-		return s.value == expected
-	case int16:
-		return s.value == expected
-	case int32:
-		return s.value == expected
-	case int64:
-		return s.value == expected
+		comparable = NewStringValue(s.value)
+	case int, int8, int16, int32, int64:
+		comparable = NewIntValue(s.value)
 	case bool:
-		return s.value == expected
+		comparable = NewBoolValue(s.value)
 	default:
 		return reflect.DeepEqual(s.value, expected)
 	}
+
+	return comparable.IsEqualTo(expected)
 }
 
 func (s AnyValue) IsNotEqualTo(expected interface{}) bool {
-	return s.value != expected
+	return !s.IsNotEqualTo(expected)
 }
 
 func (s AnyValue) Value() interface{} {
@@ -52,6 +48,14 @@ func (s AnyValue) IsLessThan(expected interface{}) bool {
 
 func (s AnyValue) IsLessOrEqualTo(expected interface{}) bool {
 	return s.value != expected
+}
+
+func (s AnyValue) IsNil() bool {
+	return s.value == nil
+}
+
+func (s AnyValue) IsNotNil() bool {
+	return !s.IsNil()
 }
 
 func NewAnyValue(value interface{}) AnyValue {
