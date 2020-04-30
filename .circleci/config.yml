@@ -20,6 +20,9 @@ jobs:
           command: |
             PACKAGE_NAMES=$(go list ./... | circleci tests split --split-by=timings --timings-type=classname)
             gotestsum --junitfile ${TEST_RESULTS}/gotestsum-report.xml -- $PACKAGE_NAMES
+            go test -timeout 10s -p 4 -count=1 ./... -v -covermode=count -coverprofile=coverage.out
+            go tool cover -html=coverage.out -o coverage.html
+            mv coverage.html /tmp/test-results
 
       - run:
           name: Run linters
