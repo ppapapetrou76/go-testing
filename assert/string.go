@@ -55,3 +55,30 @@ func (a AssertableString) IsNotEmpty() AssertableString {
 	}
 	return a
 }
+
+// Contains asserts if the assertable string contains the given element(s)
+// It errors the test if it does not contain it
+func (a AssertableString) Contains(substring string) AssertableString {
+	if a.actual.DoesNotContain(substring) {
+		a.t.Error(shouldContain(a.actual, substring))
+	}
+	return a
+}
+
+// ContainsOnly asserts if the assertable string only contains the given substring
+// It errors the test if it does not contain it
+func (a AssertableString) ContainsOnly(substring string) AssertableString {
+	if !a.actual.ContainsOnly(substring) {
+		a.t.Error(shouldContainOnly(a.actual, substring))
+	}
+	return a
+}
+
+// DoesNotContain asserts if the assertable string does not contain the given substring
+// It errors the test if it contains it
+func (a AssertableString) DoesNotContain(substring string) AssertableString {
+	if a.actual.Contains(substring) {
+		a.t.Error(shouldNotContain(a.actual, substring))
+	}
+	return a
+}
