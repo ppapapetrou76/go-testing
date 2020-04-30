@@ -19,8 +19,6 @@ options:
     #   refactor: Code Refactoring
   header:
     pattern: "^(.*)$"
-    pattern_maps:
-      - Subject
   notes:
     keywords:
       - BREAKING CHANGE
