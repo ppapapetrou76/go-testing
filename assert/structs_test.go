@@ -300,6 +300,9 @@ func TestAssertableStruct(t *testing.T) {
 				Struct1: struct{ valueStruct1 string }{valueStruct1: "!23"},
 			},
 		},
+		{
+			name: "should assert nil values",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

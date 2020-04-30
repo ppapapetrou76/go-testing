@@ -10,6 +10,9 @@ type StructValue struct {
 
 // IsEqualTo returns true if the value is equal to the expected value, else false
 func (s StructValue) IsEqualTo(expected interface{}) bool {
+	if s.value == nil && expected == nil {
+		return true
+	}
 	actualElement := reflect.ValueOf(s.value)
 	expectedElement := reflect.ValueOf(expected)
 
