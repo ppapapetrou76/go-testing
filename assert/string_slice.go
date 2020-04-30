@@ -9,7 +9,7 @@ import (
 // SliceOpt is a configuration option to initialize an Assertable Slice
 type SliceOpt func(*AssertableStringSlice)
 
-// AssertableSlice is the implementation of CommonAssertable for string types
+// AssertableStringSlice is the implementation of AssertableSlice for string slices
 type AssertableStringSlice struct {
 	t             *testing.T
 	actual        types.Containable
@@ -45,7 +45,7 @@ func ThatSlice(t *testing.T, actual interface{}, opts ...SliceOpt) AssertableSli
 // It errors the tests if the compared values (actual VS expected) are not equal
 func (a AssertableStringSlice) IsEqualTo(expected interface{}) AssertableSlice {
 	if a.actual.IsNotEqualTo(expected) {
-		a.t.Error(ShouldBeEqual(a.actual, expected))
+		a.t.Error(shouldBeEqual(a.actual, expected))
 	}
 	return a
 }
@@ -54,7 +54,7 @@ func (a AssertableStringSlice) IsEqualTo(expected interface{}) AssertableSlice {
 // It errors the tests if the compared values (actual VS expected) are equal
 func (a AssertableStringSlice) IsNotEqualTo(expected interface{}) AssertableSlice {
 	if a.actual.IsEqualTo(expected) {
-		a.t.Error(ShouldNotBeEqual(a.actual, expected))
+		a.t.Error(shouldNotBeEqual(a.actual, expected))
 	}
 	return a
 }
@@ -63,23 +63,23 @@ func (a AssertableStringSlice) IsNotEqualTo(expected interface{}) AssertableSlic
 // It errors the test if it doesn't have the expected size
 func (a AssertableStringSlice) HasSize(size int) AssertableSlice {
 	if !a.actual.HasSize(size) {
-		a.t.Error(ShouldHaveSize(a.actual, size))
+		a.t.Error(shouldHaveSize(a.actual, size))
 	}
 	return a
 }
 
-// HasSize asserts if the assertable string slice has the expected length size
-// It errors the test if it doesn't have the expected size
+// IsEmpty asserts if the assertable string slice is empty or not
 func (a AssertableStringSlice) IsEmpty() AssertableSlice {
 	if a.actual.IsEmpty() {
-		a.t.Error(ShouldBeEmpty(a.actual))
+		a.t.Error(shouldBeEmpty(a.actual))
 	}
 	return a
 }
 
+// IsNotEmpty asserts if the assertable string slice is not empty
 func (a AssertableStringSlice) IsNotEmpty() AssertableSlice {
 	if a.actual.IsNotEmpty() {
-		a.t.Error(ShouldNotBeEmpty(a.actual))
+		a.t.Error(shouldNotBeEmpty(a.actual))
 	}
 	return a
 }
@@ -88,25 +88,25 @@ func (a AssertableStringSlice) IsNotEmpty() AssertableSlice {
 // It errors the test if it does not contain it/them
 func (a AssertableStringSlice) Contains(elements interface{}) AssertableSlice {
 	if a.actual.DoesNotContain(elements) {
-		a.t.Error(ShouldContain(a.actual, elements))
+		a.t.Error(shouldContain(a.actual, elements))
 	}
 	return a
 }
 
-// Contains asserts if the assertable string slice contains only the given element(s)
+// ContainsOnly asserts if the assertable string slice contains only the given element(s)
 // It errors the test if it does not contain it/them
 func (a AssertableStringSlice) ContainsOnly(elements interface{}) AssertableSlice {
 	if !a.actual.ContainsOnly(elements) {
-		a.t.Error(ShouldContainOnly(a.actual, elements))
+		a.t.Error(shouldContainOnly(a.actual, elements))
 	}
 	return a
 }
 
-// Contains asserts if the assertable string slice does not contain the given element
+// DoesNotContain asserts if the assertable string slice does not contain the given element
 // It errors the test if it contains it/them
 func (a AssertableStringSlice) DoesNotContain(elements interface{}) AssertableSlice {
 	if a.actual.Contains(elements) {
-		a.t.Error(ShouldNotContain(a.actual, elements))
+		a.t.Error(shouldNotContain(a.actual, elements))
 	}
 	return a
 }

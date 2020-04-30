@@ -22,10 +22,6 @@ jobs:
             gotestsum --junitfile ${TEST_RESULTS}/gotestsum-report.xml -- $PACKAGE_NAMES
 
       - run:
-          name: Build binaries
-          command: make build
-
-      - run:
           name: Run linters
           command: make lint
 

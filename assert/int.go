@@ -6,7 +6,7 @@ import (
 	"github.com/ppapapetrou76/go-testing/internal/pkg/types"
 )
 
-// AssertableInt
+// AssertableInt is the assertable structure for int values
 type AssertableInt struct {
 	t      *testing.T
 	actual types.IntValue
@@ -24,7 +24,7 @@ func ThatInt(t *testing.T, actual int) AssertableInt {
 // It errors the tests if the compared values (actual VS expected) are not equal
 func (a AssertableInt) IsEqualTo(expected int) AssertableInt {
 	if a.actual.IsNotEqualTo(expected) {
-		a.t.Error(ShouldBeEqual(a.actual, expected))
+		a.t.Error(shouldBeEqual(a.actual, expected))
 	}
 	return a
 }
@@ -33,7 +33,7 @@ func (a AssertableInt) IsEqualTo(expected int) AssertableInt {
 // It errors the tests if the compared values (actual VS expected) are equal
 func (a AssertableInt) IsNotEqualTo(expected int) AssertableInt {
 	if a.actual.IsEqualTo(expected) {
-		a.t.Error(ShouldNotBeEqual(a.actual, expected))
+		a.t.Error(shouldNotBeEqual(a.actual, expected))
 	}
 	return a
 }
@@ -42,7 +42,7 @@ func (a AssertableInt) IsNotEqualTo(expected int) AssertableInt {
 // It errors the tests if is not greater
 func (a AssertableInt) IsGreaterThan(expected int) AssertableInt {
 	if !a.actual.IsGreaterThan(expected) {
-		a.t.Error(ShouldBeGreater(a.actual, expected))
+		a.t.Error(shouldBeGreater(a.actual, expected))
 	}
 	return a
 }
@@ -51,7 +51,7 @@ func (a AssertableInt) IsGreaterThan(expected int) AssertableInt {
 // It errors the tests if is not greater
 func (a AssertableInt) IsGreaterThanOrEqualTo(expected int) AssertableInt {
 	if !a.actual.IsGreaterOrEqualTo(expected) {
-		a.t.Error(ShouldBeGreaterOrEqual(a.actual, expected))
+		a.t.Error(shouldBeGreaterOrEqual(a.actual, expected))
 	}
 	return a
 }
@@ -60,7 +60,7 @@ func (a AssertableInt) IsGreaterThanOrEqualTo(expected int) AssertableInt {
 // It errors the tests if is not greater
 func (a AssertableInt) IsLessThan(expected int) AssertableInt {
 	if !a.actual.IsLessThan(expected) {
-		a.t.Error(ShouldBeLessThan(a.actual, expected))
+		a.t.Error(shouldBeLessThan(a.actual, expected))
 	}
 	return a
 }
@@ -69,7 +69,7 @@ func (a AssertableInt) IsLessThan(expected int) AssertableInt {
 // It errors the tests if is not greater
 func (a AssertableInt) IsLessThanOrEqualTo(expected int) AssertableInt {
 	if !a.actual.IsLessOrEqualTo(expected) {
-		a.t.Error(ShouldBeLessOrEqual(a.actual, expected))
+		a.t.Error(shouldBeLessOrEqual(a.actual, expected))
 	}
 
 	return a

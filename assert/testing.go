@@ -4,36 +4,45 @@ import (
 	"testing"
 )
 
-type fluentT struct {
+// FluentT wraps the testing.T pointer to provide a better experience to the library users
+type FluentT struct {
 	t *testing.T
 }
 
-func NewFluentT(t *testing.T) *fluentT {
-	return &fluentT{
+// NewFluentT creates a new Fluent testing
+func NewFluentT(t *testing.T) *FluentT { // nolint
+	return &FluentT{
 		t: t,
 	}
 }
 
-func (t fluentT) AssertThatString(actual string) AssertableString {
+// AssertThatString initializes an assertable string to be used for asserting string properties
+func (t FluentT) AssertThatString(actual string) AssertableString {
 	return ThatString(t.t, actual)
 }
 
-func (t fluentT) AssertThatBool(actual bool) AssertableBool {
+// AssertThatBool initializes an assertable bool to be used for asserting bool properties
+func (t FluentT) AssertThatBool(actual bool) AssertableBool {
 	return ThatBool(t.t, actual)
 }
 
-func (t fluentT) AssertThatInt(actual int) AssertableInt {
+// AssertThatInt initializes an assertable int to be used for asserting int properties
+func (t FluentT) AssertThatInt(actual int) AssertableInt {
 	return ThatInt(t.t, actual)
 }
 
-func (t fluentT) AssertThatSlice(actual interface{}, opts ...SliceOpt) AssertableSlice {
+// AssertThatSlice initializes an assertable slice to be used for asserting slice properties
+func (t FluentT) AssertThatSlice(actual interface{}, opts ...SliceOpt) AssertableSlice {
 	return ThatSlice(t.t, actual, opts...)
 }
 
-func (t fluentT) AssertThatStruct(actual interface{}) AssertableStruct {
+// AssertThatStruct initializes an assertable struct to be used for asserting struct properties
+func (t FluentT) AssertThatStruct(actual interface{}) AssertableStruct {
 	return ThatStruct(t.t, actual)
 }
 
-func (t fluentT) AssertThat(actual interface{}) Assertable {
+// AssertThat initializes an assertable object to be used for asserting properties of any type
+// The things we can assert using this type are limited
+func (t FluentT) AssertThat(actual interface{}) Assertable {
 	return That(t.t, actual)
 }

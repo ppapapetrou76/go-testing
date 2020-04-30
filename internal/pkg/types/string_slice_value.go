@@ -6,30 +6,37 @@ import (
 	"strings"
 )
 
+// StringSliceValue is a struct that holds a string slice value
 type StringSliceValue struct {
 	value []string
 }
 
+// IsEqualTo returns true if the value is equal to the expected value, else false
 func (s StringSliceValue) IsEqualTo(expected interface{}) bool {
 	return reflect.DeepEqual(s.value, expected)
 }
 
+// IsNotEqualTo returns true if the value is not equal to the expected value, else false
 func (s StringSliceValue) IsNotEqualTo(expected interface{}) bool {
 	return !s.IsEqualTo(expected)
 }
 
+// IsEmpty returns true if the slice is empty else false
 func (s StringSliceValue) IsEmpty() bool {
 	return len(s.value) == 0
 }
 
+// IsNotEmpty returns true if the slice is not empty else false
 func (s StringSliceValue) IsNotEmpty() bool {
 	return !s.IsEmpty()
 }
 
+// HasSize returns true if the slice has the expected size else false
 func (s StringSliceValue) HasSize(length int) bool {
 	return len(s.value) == length
 }
 
+// Size returns the slice size
 func (s StringSliceValue) Size() int {
 	return len(s.value)
 }
@@ -43,6 +50,7 @@ func (s StringSliceValue) contains(element string) bool {
 	return false
 }
 
+// Contains returns true if the slice contains the expected element(s) else false
 func (s StringSliceValue) Contains(elements interface{}) bool {
 	switch v := elements.(type) {
 	case []string:
@@ -58,10 +66,12 @@ func (s StringSliceValue) Contains(elements interface{}) bool {
 	}
 }
 
+// DoesNotContain returns true if the slice does not contain the expected element(s) else false
 func (s StringSliceValue) DoesNotContain(elements interface{}) bool {
 	return !s.Contains(elements)
 }
 
+// ContainsOnly returns true if the slice contains only the expected element(s) else false
 func (s StringSliceValue) ContainsOnly(elements interface{}) bool {
 	switch v := elements.(type) {
 	case []string:
@@ -73,10 +83,12 @@ func (s StringSliceValue) ContainsOnly(elements interface{}) bool {
 	}
 }
 
+// Value returns the actual value of the structure
 func (s StringSliceValue) Value() interface{} {
 	return s.value
 }
 
+// NewStringSliceValue creates and returns a StringSliceValue struct initialed with the given value
 func NewStringSliceValue(value interface{}) StringSliceValue {
 	switch v := value.(type) {
 	case []string:
