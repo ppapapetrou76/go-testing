@@ -1,82 +1,63 @@
 SHELL := /bin/bash
-DEP_PRESENT := $(shell command -v dep 2> /dev/null)
-GOIMPORTS_PRESENT := $(shell command -v goimports 2> /dev/null)
-GOMETALINT_PRESENT := $(shell command -v golangci-lint 2> /dev/null)
-export VERSION ?= 0.0.1
-TEST_NAME ?= all
-RELEASE_NOTES ?= notes/$(VERSION).md
-TEST_UNIT_FLAGS ?= -timeout 10s -p 4 -race -cover -coverprofile=reports/c.out
-TEST_UNIT_PACKAGE ?= ./...
-LINT_FOLDERS ?= $(shell go list ./... | sed 's|github.com/$(OWNER)/$(REPO)/||' | grep -v github.com/$(OWNER)/$(REPO))
-LINT_CHANGES = $(shell gofmt -d -e -s $(LINT_FOLDERS))
-REPORT_PATH := reports
 
-define HELP
+# VARIABLES USEd
+export GO111MODULE ?= on
+export GOBIN = $(shell pwd)/bin
 
-$(BINARY) v$(VERSION) Makefile
-=================================
+# COLORS
+GREEN  := $(shell tput -Txterm setaf 2)
+YELLOW := $(shell tput -Txterm setaf 3)
+WHITE  := $(shell tput -Txterm setaf 7)
+RESET  := $(shell tput -Txterm sgr0)
 
-## Development targets
+TARGET_MAX_CHAR_NUM=20
 
-- format:                 Formats the codebase according to gofmt and goimports
-- test:                   Runs unit tests.
-- lint:                   Runs golanccli-lint against all packages
 
-endef
-export HELP
-
-.DEFAULT: help
-.PHONY: help
+## Show help
 help:
-	@ echo "$$HELP"
+	@echo ''
+	@echo 'Usage:'
+	@echo '  ${YELLOW}make${RESET} ${GREEN}<target>${RESET}'
+	@echo ''
+	@echo 'Targets:'
+	@awk '/^[a-zA-Z\-\_0-9]+:/ { \
+		helpMessage = match(lastLine, /^## (.*)/); \
+		if (helpMessage) { \
+			helpCommand = substr($$1, 0, index($$1, ":")-1); \
+			helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
+			printf "  ${YELLOW}%-$(TARGET_MAX_CHAR_NUM)s${RESET} ${GREEN}%s${RESET}\n", helpCommand, helpMessage; \
+		} \
+	} \
+	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 
-.PHONY: deps
-deps:
-ifndef DEP_PRESENT
-	@ curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-endif
-ifndef GOIMPORTS_PRESENT
-	@ go get -u golang.org/x/tools/cmd/goimports
-endif
-ifndef GOMETALINT_PRESENT
-	@ go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
-endif
-
-.PHONY: vendor
-vendor: deps
-	@ echo "-> Installing $(BINARY) dependencies..."
-	@ dep ensure -v
-
-.PHONY: test
-test: _report_path
-	@ go test $(TEST_UNIT_FLAGS) $(TEST_UNIT_PACKAGE)
-
-.PHONY: format
-format: deps fix-imports
-	@ gofmt -e -w -s $(LINT_FOLDERS)
-
-.PHONY: fix-imports
-fix-imports:
-	@ goimports -w $(LINT_FOLDERS)
-
-.PHONY: clean
+## Clean project
 clean:
-	@ rm -rf vendor reports
+	@ rm -rf bin
 
-.PHONY: _report_path
-_report_path:
-	@ mkdir -p $(REPORT_PATH)
+## Install project dependencies
+deps:
+	@ echo "-> Installing project dependencies..."
+	@ GO111MODULE=off go get -u github.com/myitcv/gobin
+	@ $(GOBIN)/gobin golang.org/x/lint/golint
+	@ curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(GOBIN) v1.22.0
+	@ echo "-> Done."
 
-.PHONY: update-vendor
-update-vendor:
-	@ echo "-> Upgrading vendors that don't have a fixed version..."
-	@ dep ensure -update
+## Formats code and fixes as many as possible linter errors
+format: deps
+	@ echo "-> Formatting/auto-fixing Go files..."
+	@ $(GOBIN)/golangci-lint run --fix
+	@ echo "-> Done."
 
-.PHONY: unit-coverage
-unit-coverage: _report_path
-	@ echo "-> Generating coverage report..."
-	@ go tool cover -html=$(REPORT_PATH)/c.out -o $(REPORT_PATH)/coverage.html
-
-.PHONY: lint
+## Runs various checks
 lint: deps
-	@ golangci-lint run --enable-all -D errcheck,dupl,lll,gochecknoglobals,maligned,gochecknoinits,gosec,scopelint,goconst --max-issues-per-linter=0 --max-same-issues=0 --out-format=tab
+	@ echo "-> Running linters..."
+	@ $(GOBIN)/golint -set_exit_status ./...
+	@ $(GOBIN)/golangci-lint run
+	@ echo "-> Done."
+
+## Run unit tests
+test:
+	@ echo "-> Running unit tests..."
+	@ go test -timeout 10s -p 4 -race -count=1 ./...
+	@ echo "-> Done."
+

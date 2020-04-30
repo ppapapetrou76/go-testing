@@ -1,5 +1,6 @@
 package assert
 
+// AssertableSlice defines the interface for all kinds of assertable slices
 type AssertableSlice interface {
 	IsEqualTo(expected interface{}) AssertableSlice
 	IsNotEqualTo(expected interface{}) AssertableSlice

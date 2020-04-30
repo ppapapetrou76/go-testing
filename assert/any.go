@@ -24,7 +24,7 @@ func That(t *testing.T, actual interface{}) Assertable {
 // It errors the tests if the compared values (actual VS expected) are not equal
 func (a Assertable) IsEqualTo(expected interface{}) Assertable {
 	if !a.actual.IsEqualTo(expected) {
-		a.t.Error(ShouldBeEqual(a.actual, expected))
+		a.t.Error(shouldBeEqual(a.actual, expected))
 	}
 	return a
 }
@@ -33,7 +33,7 @@ func (a Assertable) IsEqualTo(expected interface{}) Assertable {
 // It errors the tests if the compared values (actual VS expected) are equal
 func (a Assertable) IsNotEqualTo(expected interface{}) Assertable {
 	if !a.actual.IsNotEqualTo(expected) {
-		a.t.Error(ShouldNotBeEqual(a.actual, expected))
+		a.t.Error(shouldNotBeEqual(a.actual, expected))
 	}
 	return a
 }
@@ -41,7 +41,7 @@ func (a Assertable) IsNotEqualTo(expected interface{}) Assertable {
 // IsNil asserts if the expected value is nil
 func (a Assertable) IsNil() Assertable {
 	if !a.actual.IsNil() {
-		a.t.Error(ShouldBeNil(a.actual))
+		a.t.Error(shouldBeNil(a.actual))
 	}
 	return a
 }
@@ -49,7 +49,7 @@ func (a Assertable) IsNil() Assertable {
 // IsNotNil asserts if the expected value is not nil
 func (a Assertable) IsNotNil() Assertable {
 	if !a.actual.IsNotNil() {
-		a.t.Error(ShouldNotBeNil(a.actual))
+		a.t.Error(shouldNotBeNil(a.actual))
 	}
 	return a
 }

@@ -6,6 +6,12 @@ import (
 	"github.com/ppapapetrou76/go-testing/internal/pkg/types"
 )
 
+// AssertableStruct is the implementation of Assertable for structs
+type AssertableStruct struct {
+	actual types.StructValue
+	t      *testing.T
+}
+
 // ThatStruct returns a proper assertable structure based on the slice type
 func ThatStruct(t *testing.T, actual interface{}) AssertableStruct {
 	return AssertableStruct{
@@ -14,16 +20,11 @@ func ThatStruct(t *testing.T, actual interface{}) AssertableStruct {
 	}
 }
 
-type AssertableStruct struct {
-	actual types.StructValue
-	t      *testing.T
-}
-
 // IsEqualTo asserts if the expected structure is equal to the assertable structure value
 // It errors the tests if the compared values (actual VS expected) are not equal
 func (s AssertableStruct) IsEqualTo(expected interface{}) AssertableStruct {
 	if !s.actual.IsEqualTo(expected) {
-		s.t.Error(ShouldBeEqual(s.actual, expected))
+		s.t.Error(shouldBeEqual(s.actual, expected))
 	}
 	return s
 }
@@ -32,14 +33,13 @@ func (s AssertableStruct) IsEqualTo(expected interface{}) AssertableStruct {
 // It errors the tests if the compared values (actual VS expected) are equal
 func (s AssertableStruct) IsNotEqualTo(expected int) AssertableStruct {
 	if s.actual.IsEqualTo(expected) {
-		s.t.Error(ShouldNotBeEqual(s.actual, expected))
+		s.t.Error(shouldNotBeEqual(s.actual, expected))
 	}
 	return s
 }
 
-
+// ExcludingFields excludes the given fields from struct comparisons
 func (s AssertableStruct) ExcludingFields(fields ...string) AssertableStruct {
 	s.actual.ExcludedFields = fields
 	return s
 }
-

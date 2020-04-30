@@ -24,7 +24,7 @@ func ThatString(t *testing.T, actual string) AssertableString {
 // It errors the tests if the compared values (actual VS expected) are not equal
 func (a AssertableString) IsEqualTo(expected interface{}) AssertableString {
 	if a.actual.IsNotEqualTo(expected) {
-		a.t.Error(ShouldBeEqual(a.actual, expected))
+		a.t.Error(shouldBeEqual(a.actual, expected))
 	}
 	return a
 }
@@ -33,7 +33,7 @@ func (a AssertableString) IsEqualTo(expected interface{}) AssertableString {
 // It errors the tests if the compared values (actual VS expected) are equal
 func (a AssertableString) IsNotEqualTo(expected interface{}) AssertableString {
 	if a.actual.IsEqualTo(expected) {
-		a.t.Error(ShouldNotBeEqual(a.actual, expected))
+		a.t.Error(shouldNotBeEqual(a.actual, expected))
 	}
 	return a
 }
@@ -42,7 +42,7 @@ func (a AssertableString) IsNotEqualTo(expected interface{}) AssertableString {
 // It errors the tests if the string is not empty
 func (a AssertableString) IsEmpty() AssertableString {
 	if a.actual.IsNotEmpty() {
-		a.t.Error(ShouldBeEmpty(a.actual))
+		a.t.Error(shouldBeEmpty(a.actual))
 	}
 	return a
 }
@@ -51,7 +51,7 @@ func (a AssertableString) IsEmpty() AssertableString {
 // It errors the tests if the string is empty
 func (a AssertableString) IsNotEmpty() AssertableString {
 	if a.actual.IsEmpty() {
-		a.t.Error(ShouldNotBeEmpty(a.actual))
+		a.t.Error(shouldNotBeEmpty(a.actual))
 	}
 	return a
 }

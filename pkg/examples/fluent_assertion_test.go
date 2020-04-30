@@ -7,24 +7,24 @@ import (
 )
 
 func TestAssertedStruct(t *testing.T) {
-	assertedStruct := AssertedStruct{}
-	assertedStruct.SetBoolField(true)
-	assertedStruct.SetStringField("I am a very proud asserted string")
-	assertedStruct.SetIntField(-10)
-	assertedStruct.SetSliceField([]string{"elem1", "elem2"})
+	assertedStruct := assertedStruct{}
+	assertedStruct.boolField = true
+	assertedStruct.stringField = "I am a very proud asserted string"
+	assertedStruct.intField = -10
+	assertedStruct.sliceField = []string{"elem1", "elem2"}
 
 	ft := assert.NewFluentT(t)
-	ft.AssertThatBool(assertedStruct.BoolField()).
+	ft.AssertThatBool(assertedStruct.boolField).
 		IsTrue().
 		IsEqualTo(true).
 		IsNotEqualTo(false)
 
-	ft.AssertThatString(assertedStruct.StringField()).
+	ft.AssertThatString(assertedStruct.stringField).
 		IsEqualTo("I am a very proud asserted string").
 		IsNotEmpty().
 		IsNotEqualTo("I'm very proud too")
 
-	ft.AssertThatInt(assertedStruct.IntField()).
+	ft.AssertThatInt(assertedStruct.intField).
 		IsEqualTo(-10).
 		IsNotEqualTo(10).
 		IsGreaterThan(-20).
@@ -34,7 +34,7 @@ func TestAssertedStruct(t *testing.T) {
 		IsLessThanOrEqualTo(0).
 		IsLessThanOrEqualTo(-10)
 
-	ft.AssertThatSlice(assertedStruct.SliceField()).
+	ft.AssertThatSlice(assertedStruct.sliceField).
 		HasSize(2).
 		Contains("elem1").
 		ContainsOnly([]string{"elem1", "elem2"}).
