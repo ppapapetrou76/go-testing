@@ -3,6 +3,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/ppapapetrou76/go-testing)](https://goreportcard.com/report/github.com/ppapapetrou76/go-testing)
 [![GoDoc](https://godoc.org/github.com/ppapapetrou76/go-testing?status.svg)](https://pkg.go.dev/github.com/ppapapetrou76/go-testing)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ppapapetrou76_go-testing&metric=alert_status)](https://sonarcloud.io/dashboard?id=ppapapetrou76_go-testing)
+[![codecov](https://codecov.io/gh/ppapapetrou76/go-testing/branch/master/graph/badge.svg)](https://codecov.io/gh/ppapapetrou76/go-testing)
 
 # go-testing
 GoLang fluent API for test assertions
