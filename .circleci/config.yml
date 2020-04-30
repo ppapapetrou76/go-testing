@@ -25,9 +25,17 @@ jobs:
           name: Run linters
           command: make lint
 
-      - run: curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh| sh -s -- -b ./bin
-      - run: go vet ./... 2>&1 | ./bin/reviewdog -f=govet -reporter=github-pr-check
-
+      - run:
+          name: "Create a temp directory for artifacts"
+          command: |
+            mkdir -p /tmp/test-results
+            
+      - run:
+          command: |
+            go test -coverprofile=c.out
+            go tool cover -html=c.out -o coverage.html
+            mv coverage.html /tmp/test-results
+            
       - save_cache:
           key: go-mod-v4-{{ checksum "go.sum" }}
           paths:
