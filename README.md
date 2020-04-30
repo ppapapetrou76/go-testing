@@ -1,6 +1,5 @@
 [![Fluent Go Testing](https://circleci.com/gh/circleci/circleci-docs.svg?style=shield)](https://app.circleci.com/pipelines/github/ppapapetrou76/go-testing?branch=master)
-
-
+[![Coverage Status](https://coveralls.io/repos/github/ppapapetrou76/go-testing/badge.svg?branch=master)](https://coveralls.io/github/ppapapetrou76/go-testing?branch=master)
 
 # go-testing
 GoLang fluent API for test assertions
