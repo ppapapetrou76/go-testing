@@ -2,6 +2,7 @@ package assert
 
 import (
 	"testing"
+	"time"
 )
 
 // FluentT wraps the testing.T pointer to provide a better experience to the library users
@@ -41,8 +42,14 @@ func (t FluentT) AssertThatStruct(actual interface{}) AssertableStruct {
 	return ThatStruct(t.t, actual)
 }
 
+// AssertThatTime initializes an assertable time.Time to be used for asserting time.Time properties
+func (t FluentT) AssertThatTime(actual time.Time) AssertableTime{
+	return ThatTime(t.t, actual)
+}
+
 // AssertThat initializes an assertable object to be used for asserting properties of any type
 // The things we can assert using this type are limited
 func (t FluentT) AssertThat(actual interface{}) Assertable {
 	return That(t.t, actual)
 }
+
