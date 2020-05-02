@@ -48,7 +48,7 @@ func (a AssertableTime) IsBefore(expected time.Time) AssertableTime {
 	return a
 }
 
-// IsLater asserts if the assertable time.Time value is after the expected value
+// IsAfter asserts if the assertable time.Time value is after the expected value
 // It errors the tests if is not later
 func (a AssertableTime) IsAfter(expected time.Time) AssertableTime {
 	if !a.actual.IsAfter(expected) {
