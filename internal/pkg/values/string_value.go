@@ -1,4 +1,4 @@
-package types
+package values
 
 import (
 	"fmt"
@@ -13,11 +13,6 @@ type StringValue struct {
 // IsEqualTo returns true if the value is equal to the expected value, else false
 func (s StringValue) IsEqualTo(expected interface{}) bool {
 	return s.value == expected
-}
-
-// IsNotEqualTo returns true if the value is not equal to the expected value, else false
-func (s StringValue) IsNotEqualTo(expected interface{}) bool {
-	return s.value != expected
 }
 
 // Value returns the actual value of the structure

@@ -3,10 +3,11 @@ package assert
 import (
 	"testing"
 
-	"github.com/ppapapetrou76/go-testing/internal/pkg/types"
+	"github.com/ppapapetrou76/go-testing/internal/pkg/values"
+	"github.com/ppapapetrou76/go-testing/types"
 )
 
-// SliceOpt is a configuration option to initialize an Assertable Slice
+// SliceOpt is a configuration option to initialize an AssertableAny Slice
 type SliceOpt func(*AssertableStringSlice)
 
 // AssertableStringSlice is the implementation of AssertableSlice for string slices
@@ -29,7 +30,7 @@ func ThatSlice(t *testing.T, actual interface{}, opts ...SliceOpt) AssertableSli
 	case []string:
 		assertable := &AssertableStringSlice{
 			t:      t,
-			actual: types.NewStringSliceValue(actual),
+			actual: values.NewStringSliceValue(actual),
 		}
 		for _, opt := range opts {
 			opt(assertable)
@@ -44,7 +45,7 @@ func ThatSlice(t *testing.T, actual interface{}, opts ...SliceOpt) AssertableSli
 // IsEqualTo asserts if the expected slice is equal to the assertable slice value
 // It errors the tests if the compared values (actual VS expected) are not equal
 func (a AssertableStringSlice) IsEqualTo(expected interface{}) AssertableSlice {
-	if a.actual.IsNotEqualTo(expected) {
+	if !a.actual.IsEqualTo(expected) {
 		a.t.Error(shouldBeEqual(a.actual, expected))
 	}
 	return a
@@ -70,7 +71,7 @@ func (a AssertableStringSlice) HasSize(size int) AssertableSlice {
 
 // IsEmpty asserts if the assertable string slice is empty or not
 func (a AssertableStringSlice) IsEmpty() AssertableSlice {
-	if a.actual.IsEmpty() {
+	if a.actual.IsNotEmpty() {
 		a.t.Error(shouldBeEmpty(a.actual))
 	}
 	return a
@@ -78,7 +79,7 @@ func (a AssertableStringSlice) IsEmpty() AssertableSlice {
 
 // IsNotEmpty asserts if the assertable string slice is not empty
 func (a AssertableStringSlice) IsNotEmpty() AssertableSlice {
-	if a.actual.IsNotEmpty() {
+	if a.actual.IsEmpty() {
 		a.t.Error(shouldNotBeEmpty(a.actual))
 	}
 	return a

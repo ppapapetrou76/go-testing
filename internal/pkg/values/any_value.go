@@ -1,8 +1,10 @@
-package types
+package values
 
 import (
 	"fmt"
 	"reflect"
+
+	"github.com/ppapapetrou76/go-testing/types"
 )
 
 // AnyValue is a struct that holds any type of value
@@ -12,7 +14,7 @@ type AnyValue struct {
 
 // IsEqualTo returns true if the value is equal to the expected value, else false
 func (s AnyValue) IsEqualTo(expected interface{}) bool {
-	var comparable Comparable
+	var comparable types.Comparable
 
 	switch expected.(type) {
 	case string:
@@ -32,11 +34,6 @@ func (s AnyValue) IsEqualTo(expected interface{}) bool {
 	}
 
 	return comparable.IsEqualTo(expected)
-}
-
-// IsNotEqualTo returns true if the value is not equal to the expected value, else false
-func (s AnyValue) IsNotEqualTo(expected interface{}) bool {
-	return !s.IsEqualTo(expected)
 }
 
 // Value returns the actual value of the structure

@@ -11,12 +11,12 @@ func TestAssertableSlice_IsEmpty(t *testing.T) {
 		{
 			name:       "should assert empty string slice",
 			actual:     []string{"element"},
-			shouldFail: false,
+			shouldFail: true,
 		},
 		{
 			name:       "should assert non-empty string slice",
 			actual:     []string{},
-			shouldFail: true,
+			shouldFail: false,
 		},
 	}
 	for _, tt := range tests {
@@ -37,12 +37,12 @@ func TestAssertableSlice_IsNotEmpty(t *testing.T) {
 		{
 			name:       "should assert empty string slice",
 			actual:     []string{"element"},
-			shouldFail: true,
+			shouldFail: false,
 		},
 		{
 			name:       "should assert non-empty string slice",
 			actual:     []string{},
-			shouldFail: false,
+			shouldFail: true,
 		},
 	}
 	for _, tt := range tests {

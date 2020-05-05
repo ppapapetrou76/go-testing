@@ -61,3 +61,42 @@ func TestAssertedStruct(t *testing.T) {
 }
 
 ```
+## Supported
+For the following types basic assertions are supported
+* int
+* uint
+* bool
+* string
+* slice
+* structure
+* map
+
+## To be implemented soon
+* time.Duration (basic assertions)
+* time.Time (basic assertions)
+* moar string assertions
+    - [ ] ContainsIgnoringCase
+    - [ ] ContainsOnlyDigits
+    - [ ] ContainsOnlyOnce
+    - [ ] ContainsOnlyWhitespaces
+    - [ ] ContainsWhitespaces
+    - [ ] DoesNotContainAnyWhitespaces
+    - [ ] DoesNotContainOnlyWhitespaces
+    - [ ] DoesNotEndWith
+    - [ ] DoesNotStartWith
+    - [ ] EndsWith
+    - [ ] HasLineCount
+    - [ ] HasSameSizeAs
+    - [ ] HasSizeBetween
+    - [ ] HasSizeGreaterThan
+    - [ ] HasSizeGreaterThanOrEqualTo
+    - [ ] HasSizeLessThan
+    - [ ] HasSizeLessThanOrEqualTo
+    - [ ] IsEqualToIgnoringCase
+    - [ ] IsEqualToIgnoringNewLines
+    - [ ] IsEqualToIgnoringWhitespace
+    - [ ] IsLowerCase
+    - [ ] IsNotEqualToIgnoringCase
+    - [ ] IsNotEqualToIgnoringWhitespace
+    - [ ] IsSubstringOf
+    - [ ] IsUpperCase
