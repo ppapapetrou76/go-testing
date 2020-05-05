@@ -72,14 +72,14 @@ func TestAssertableTime_IsAfter(t *testing.T) {
 	}{
 		{
 			name:       "should succeed if after",
-			actual:   	time.Date(2001, 1, 1, 0, 0, 0, 0, time.UTC),
+			actual:     time.Date(2001, 1, 1, 0, 0, 0, 0, time.UTC),
 			expected:   time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC),
 			shouldFail: false,
 		},
 		{
 			name:       "should fail if not after",
 			actual:     time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC),
-			expected:     time.Date(2001, 1, 1, 0, 0, 0, 0, time.UTC),
+			expected:   time.Date(2001, 1, 1, 0, 0, 0, 0, time.UTC),
 			shouldFail: true,
 		},
 	}

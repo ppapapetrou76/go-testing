@@ -43,7 +43,7 @@ func (t FluentT) AssertThatStruct(actual interface{}) AssertableStruct {
 }
 
 // AssertThatTime initializes an assertable time.Time to be used for asserting time.Time properties
-func (t FluentT) AssertThatTime(actual time.Time) AssertableTime{
+func (t FluentT) AssertThatTime(actual time.Time) AssertableTime {
 	return ThatTime(t.t, actual)
 }
 
@@ -52,4 +52,3 @@ func (t FluentT) AssertThatTime(actual time.Time) AssertableTime{
 func (t FluentT) AssertThat(actual interface{}) AssertableAny {
 	return That(t.t, actual)
 }
-
