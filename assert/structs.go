@@ -3,19 +3,19 @@ package assert
 import (
 	"testing"
 
-	"github.com/ppapapetrou76/go-testing/internal/pkg/types"
+	"github.com/ppapapetrou76/go-testing/internal/pkg/values"
 )
 
-// AssertableStruct is the implementation of Assertable for structs
+// AssertableStruct is the implementation of AssertableAny for structs
 type AssertableStruct struct {
-	actual types.StructValue
+	actual values.StructValue
 	t      *testing.T
 }
 
 // ThatStruct returns a proper assertable structure based on the slice type
 func ThatStruct(t *testing.T, actual interface{}) AssertableStruct {
 	return AssertableStruct{
-		actual: types.NewStructValue(actual),
+		actual: values.NewStructValue(actual),
 		t:      t,
 	}
 }

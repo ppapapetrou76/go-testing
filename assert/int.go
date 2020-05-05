@@ -3,27 +3,27 @@ package assert
 import (
 	"testing"
 
-	"github.com/ppapapetrou76/go-testing/internal/pkg/types"
+	"github.com/ppapapetrou76/go-testing/internal/pkg/values"
 )
 
 // AssertableInt is the assertable structure for int values
 type AssertableInt struct {
 	t      *testing.T
-	actual types.IntValue
+	actual values.IntValue
 }
 
 // ThatInt returns an AssertableInt structure initialized with the test reference and the actual value to assert
 func ThatInt(t *testing.T, actual int) AssertableInt {
 	return AssertableInt{
 		t:      t,
-		actual: types.NewIntValue(actual),
+		actual: values.NewIntValue(actual),
 	}
 }
 
 // IsEqualTo asserts if the expected int is equal to the assertable int value
 // It errors the tests if the compared values (actual VS expected) are not equal
 func (a AssertableInt) IsEqualTo(expected int) AssertableInt {
-	if a.actual.IsNotEqualTo(expected) {
+	if !a.actual.IsEqualTo(expected) {
 		a.t.Error(shouldBeEqual(a.actual, expected))
 	}
 	return a

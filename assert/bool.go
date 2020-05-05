@@ -3,20 +3,20 @@ package assert
 import (
 	"testing"
 
-	"github.com/ppapapetrou76/go-testing/internal/pkg/types"
+	"github.com/ppapapetrou76/go-testing/internal/pkg/values"
 )
 
 // AssertableBool is the assertable structure for bool values
 type AssertableBool struct {
 	t      *testing.T
-	actual types.BoolValue
+	actual values.BoolValue
 }
 
 // ThatBool returns an AssertableBool structure initialized with the test reference and the actual bool value to assert
 func ThatBool(t *testing.T, actual bool) AssertableBool {
 	return AssertableBool{
 		t:      t,
-		actual: types.NewBoolValue(actual),
+		actual: values.NewBoolValue(actual),
 	}
 }
 

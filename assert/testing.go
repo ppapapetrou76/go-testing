@@ -43,6 +43,6 @@ func (t FluentT) AssertThatStruct(actual interface{}) AssertableStruct {
 
 // AssertThat initializes an assertable object to be used for asserting properties of any type
 // The things we can assert using this type are limited
-func (t FluentT) AssertThat(actual interface{}) Assertable {
+func (t FluentT) AssertThat(actual interface{}) AssertableAny {
 	return That(t.t, actual)
 }

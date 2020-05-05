@@ -1,4 +1,4 @@
-package types
+package values
 
 import (
 	"fmt"
@@ -14,11 +14,6 @@ type StringSliceValue struct {
 // IsEqualTo returns true if the value is equal to the expected value, else false
 func (s StringSliceValue) IsEqualTo(expected interface{}) bool {
 	return reflect.DeepEqual(s.value, expected)
-}
-
-// IsNotEqualTo returns true if the value is not equal to the expected value, else false
-func (s StringSliceValue) IsNotEqualTo(expected interface{}) bool {
-	return !s.IsEqualTo(expected)
 }
 
 // IsEmpty returns true if the slice is empty else false

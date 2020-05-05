@@ -3,27 +3,27 @@ package assert
 import (
 	"testing"
 
-	"github.com/ppapapetrou76/go-testing/internal/pkg/types"
+	"github.com/ppapapetrou76/go-testing/internal/pkg/values"
 )
 
 // AssertableString is the implementation of CommonAssertable for string types
 type AssertableString struct {
 	t      *testing.T
-	actual types.StringValue
+	actual values.StringValue
 }
 
 // ThatString returns an AssertableString structure initialized with the test reference and the actual value to assert
 func ThatString(t *testing.T, actual string) AssertableString {
 	return AssertableString{
 		t:      t,
-		actual: types.NewStringValue(actual),
+		actual: values.NewStringValue(actual),
 	}
 }
 
 // IsEqualTo asserts if the expected string is equal to the assertable string value
 // It errors the tests if the compared values (actual VS expected) are not equal
 func (a AssertableString) IsEqualTo(expected interface{}) AssertableString {
-	if a.actual.IsNotEqualTo(expected) {
+	if !a.actual.IsEqualTo(expected) {
 		a.t.Error(shouldBeEqual(a.actual, expected))
 	}
 	return a

@@ -1,4 +1,4 @@
-package types
+package values
 
 import (
 	"fmt"
@@ -11,12 +11,7 @@ type UIntValue struct {
 
 // IsEqualTo returns true if the value is equal to the expected value, else false
 func (i UIntValue) IsEqualTo(expected interface{}) bool {
-	return i.value == expected
-}
-
-// IsNotEqualTo returns true if the value is not equal to the expected value, else false
-func (i UIntValue) IsNotEqualTo(expected interface{}) bool {
-	return i.value != expected
+	return i.equals(NewUIntValue(expected))
 }
 
 // IsGreaterThan returns true if the value is greater than the expected value, else false
@@ -52,11 +47,23 @@ func (i UIntValue) greaterOrEqual(expected UIntValue) bool {
 	return i.value >= expected.value
 }
 
+func (i UIntValue) equals(expected UIntValue) bool {
+	return i.value == expected.value
+}
+
 // NewUIntValue creates and returns a UIntValue struct initialed with the given value
 func NewUIntValue(value interface{}) UIntValue {
 	switch v := value.(type) {
-	case uint, uint8, uint16, uint32, uint64:
+	case uint:
 		return UIntValue{value: value.(uint)}
+	case uint8:
+		return UIntValue{value: uint(value.(uint8))}
+	case uint16:
+		return UIntValue{value: uint(value.(uint16))}
+	case uint32:
+		return UIntValue{value: uint(value.(uint32))}
+	case uint64:
+		return UIntValue{value: uint(value.(uint64))}
 	default:
 		panic(fmt.Sprintf("expected uint value type but got %T type", v))
 	}

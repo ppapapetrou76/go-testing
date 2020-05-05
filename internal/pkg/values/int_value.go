@@ -1,4 +1,4 @@
-package types
+package values
 
 import (
 	"fmt"
@@ -11,12 +11,7 @@ type IntValue struct {
 
 // IsEqualTo returns true if the value is equal to the expected value, else false
 func (i IntValue) IsEqualTo(expected interface{}) bool {
-	return i.value == expected
-}
-
-// IsNotEqualTo returns true if the value is not equal to the expected value, else false
-func (i IntValue) IsNotEqualTo(expected interface{}) bool {
-	return i.value != expected
+	return i.equals(NewIntValue(expected))
 }
 
 // IsGreaterThan returns true if the value is greater than the expected value, else false
@@ -52,11 +47,23 @@ func (i IntValue) greaterOrEqual(expected IntValue) bool {
 	return i.value >= expected.value
 }
 
+func (i IntValue) equals(expected IntValue) bool {
+	return i.value == expected.value
+}
+
 // NewIntValue creates and returns an IntValue struct initialed with the given value
 func NewIntValue(value interface{}) IntValue {
 	switch v := value.(type) {
-	case int, int8, int16, int32, int64:
+	case int:
 		return IntValue{value: value.(int)}
+	case int8:
+		return IntValue{value: int(value.(int8))}
+	case int16:
+		return IntValue{value: int(value.(int16))}
+	case int32:
+		return IntValue{value: int(value.(int32))}
+	case int64:
+		return IntValue{value: int(value.(int64))}
 	default:
 		panic(fmt.Sprintf("expected int value type but got %T type", v))
 	}
