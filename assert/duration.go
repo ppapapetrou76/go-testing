@@ -1,9 +1,10 @@
 package assert
 
 import (
-	"github.com/ppapapetrou76/go-testing/internal/pkg/values"
 	"testing"
 	"time"
+
+	"github.com/ppapapetrou76/go-testing/internal/pkg/values"
 )
 
 // AssertableDuration is the assertable structure for time.Duration values
