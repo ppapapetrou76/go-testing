@@ -90,3 +90,15 @@ func shouldNotHaveValue(actual types.Assertable, elements interface{}) string {
 func shouldNotHaveEntry(actual types.Assertable, entry types.MapEntry) string {
 	return fmt.Sprintf("assertion failed: map [%v] should not have the entry [%+v], but it does", actual.Value(), entry)
 }
+
+func shouldStartWith(actual types.Assertable, substr string) string {
+	return fmt.Sprintf("assertion failed: expected value of [%v] to start with [%+v], but it doesn't", actual.Value(), substr)
+}
+
+func shouldEndWith(actual types.Assertable, substr string) string {
+	return fmt.Sprintf("assertion failed: expected value of [%v] to end with [%+v], but it doesn't", actual.Value(), substr)
+}
+
+func shouldHaveSameSizeAs(actual types.Assertable, substr string) string {
+	return fmt.Sprintf("assertion failed: expected size of [%v] should be same as the size of [%+v], but it isn't", actual.Value(), substr)
+}
