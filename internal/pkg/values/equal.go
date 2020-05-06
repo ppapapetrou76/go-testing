@@ -20,6 +20,9 @@ func areEqualValues(actualValue, expectedValue reflect.Value) bool {
 	case reflect.Map:
 		return areMapsEqual(actualValue, expectedValue)
 	case reflect.Struct:
+		if actualValue.CanInterface() && expectedValue.CanInterface() {
+			return NewStructValue(actualValue.Interface()).IsEqualTo(expectedValue.Interface())
+		}
 		return NewStructValue(actualValue).IsEqualTo(expectedValue)
 	case reflect.Interface:
 		return NewAnyValue(actualValue.Interface()).IsEqualTo(expectedValue.Interface())

@@ -5,13 +5,18 @@ import "testing"
 func TestAssertableSlice_IsEmpty(t *testing.T) {
 	tests := []struct {
 		name       string
-		actual     []string
+		actual     interface{}
 		shouldFail bool
 	}{
 		{
 			name:       "should assert empty string slice",
 			actual:     []string{"element"},
 			shouldFail: true,
+		},
+		{
+			name:       "should assert wrong type",
+			actual:     12,
+			shouldFail: false,
 		},
 		{
 			name:       "should assert non-empty string slice",
@@ -31,13 +36,18 @@ func TestAssertableSlice_IsEmpty(t *testing.T) {
 func TestAssertableSlice_IsNotEmpty(t *testing.T) {
 	tests := []struct {
 		name       string
-		actual     []string
+		actual     interface{}
 		shouldFail bool
 	}{
 		{
 			name:       "should assert empty string slice",
 			actual:     []string{"element"},
 			shouldFail: false,
+		},
+		{
+			name:       "should assert wrong type",
+			actual:     12,
+			shouldFail: true,
 		},
 		{
 			name:       "should assert non-empty string slice",
@@ -55,12 +65,31 @@ func TestAssertableSlice_IsNotEmpty(t *testing.T) {
 }
 
 func TestAssertableSlice_IsEqualTo(t *testing.T) {
+	type struct1 struct {
+		field1 string
+		field2 bool
+	}
+	val1 := struct1{field1: "value1", field2: true}
+	val2 := struct1{field1: "value2", field2: true}
+
 	tests := []struct {
 		name       string
-		actual     []string
-		expected   []string
+		actual     interface{}
+		expected   interface{}
 		shouldFail bool
 	}{
+		{
+			name:       "should assert not equal slices of struct",
+			actual:     []struct1{val1},
+			expected:   []struct1{val2},
+			shouldFail: true,
+		},
+		{
+			name:       "should assert equal slices of struct",
+			actual:     []struct1{val1},
+			expected:   []struct1{val1},
+			shouldFail: false,
+		},
 		{
 			name:       "should assert not equal string slices",
 			actual:     []string{"element"},
@@ -71,6 +100,24 @@ func TestAssertableSlice_IsEqualTo(t *testing.T) {
 			name:       "should assert equal strings",
 			actual:     []string{"element"},
 			expected:   []string{"element-other"},
+			shouldFail: true,
+		},
+		{
+			name:       "should assert slices of different sizes",
+			actual:     []string{"element", "element2"},
+			expected:   []string{"element-other"},
+			shouldFail: true,
+		},
+		{
+			name:       "should assert slices of different types",
+			actual:     []string{"element2"},
+			expected:   []int{2},
+			shouldFail: true,
+		},
+		{
+			name:       "should assert wrong type",
+			actual:     2,
+			expected:   []int{2},
 			shouldFail: true,
 		},
 	}
@@ -112,10 +159,10 @@ func TestAssertableSlice_IsNotEqualTo(t *testing.T) {
 	}
 }
 
-func TestAssertableStringSlice_HasSize(t *testing.T) {
+func TestAssertableSlice_HasSize(t *testing.T) {
 	tests := []struct {
 		name         string
-		actual       []string
+		actual       interface{}
 		expectedSize int
 		shouldFail   bool
 	}{
@@ -131,20 +178,34 @@ func TestAssertableStringSlice_HasSize(t *testing.T) {
 			expectedSize: 1,
 			shouldFail:   true,
 		},
+		{
+			name:         "should fail if it runs for wrong type",
+			actual:       12,
+			expectedSize: 1,
+			shouldFail:   true,
+		},
+		{
+			name:         "should fail if it runs for wrong type with custom message",
+			actual:       12,
+			expectedSize: 1,
+			shouldFail:   true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			test := &testing.T{}
-			ThatSlice(test, tt.actual).HasSize(tt.expectedSize)
-			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+			assertedSlice := ThatSlice(test, tt.actual, WithCustomMessage("Custom message")).HasSize(tt.expectedSize)
+			ft := NewFluentT(t)
+			ft.AssertThatString(assertedSlice.customMessage).IsEqualTo("Custom message")
+			ft.AssertThatBool(test.Failed()).IsEqualTo(tt.shouldFail)
 		})
 	}
 }
 
-func TestAssertableStringSlice_Contains(t *testing.T) {
+func TestAssertableSlice_Contains(t *testing.T) {
 	tests := []struct {
 		name              string
-		actual            []string
+		actual            interface{}
 		elementsToContain interface{}
 		shouldFail        bool
 	}{
@@ -166,6 +227,12 @@ func TestAssertableStringSlice_Contains(t *testing.T) {
 			elementsToContain: []string{"element", "element4"},
 			shouldFail:        true,
 		},
+		{
+			name:              "should fail if contains runs on the wrong type",
+			actual:            2,
+			elementsToContain: []string{"element", "element4"},
+			shouldFail:        true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -176,7 +243,7 @@ func TestAssertableStringSlice_Contains(t *testing.T) {
 	}
 }
 
-func TestAssertableStringSlice_ContainsOnly(t *testing.T) {
+func TestAssertableSlice_ContainsOnly(t *testing.T) {
 	tests := []struct {
 		name              string
 		actual            []string
@@ -205,7 +272,7 @@ func TestAssertableStringSlice_ContainsOnly(t *testing.T) {
 	}
 }
 
-func TestAssertableStringSlice_DoesNotContain(t *testing.T) {
+func TestAssertableSlice_DoesNotContain(t *testing.T) {
 	tests := []struct {
 		name              string
 		actual            []string
