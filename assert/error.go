@@ -90,3 +90,11 @@ func shouldNotHaveValue(actual types.Assertable, elements interface{}) string {
 func shouldNotHaveEntry(actual types.Assertable, entry types.MapEntry) string {
 	return fmt.Sprintf("assertion failed: map [%v] should not have the entry [%+v], but it does", actual.Value(), entry)
 }
+
+func shouldBeShorter(actual types.Assertable, expected interface{}) string {
+	return fmt.Sprintf("assertion failed: expected value of = %+v, to be greater than %+v", actual.Value(), expected)
+}
+
+func shouldBeLonger(actual types.Assertable, expected interface{}) string {
+	return fmt.Sprintf("assertion failed: expected value of = %+v, to be longer than %+v", actual.Value(), expected)
+}
