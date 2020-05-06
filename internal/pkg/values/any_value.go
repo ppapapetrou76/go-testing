@@ -28,7 +28,7 @@ func (s AnyValue) IsEqualTo(expected interface{}) bool {
 	case struct{}:
 		comparable = NewStructValue(s.value)
 	case []string:
-		comparable = NewStringSliceValue(s.value)
+		comparable = NewSliceValue(s.value)
 	default:
 		return reflect.DeepEqual(s.value, expected)
 	}

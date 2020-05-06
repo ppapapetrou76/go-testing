@@ -7,12 +7,16 @@ import (
 
 // StringValue value represents a string value
 type StringValue struct {
-	value string
+	value      string
+	decorators []StringDecorator
 }
+
+// StringDecorator is a function type to decorate a string
+type StringDecorator func(value string) string
 
 // IsEqualTo returns true if the value is equal to the expected value, else false
 func (s StringValue) IsEqualTo(expected interface{}) bool {
-	return s.value == expected
+	return s.DecoratedValue() == s.decoratedValue(expected)
 }
 
 // Value returns the actual value of the structure
@@ -22,27 +26,27 @@ func (s StringValue) Value() interface{} {
 
 // IsGreaterThan returns true if the value is greater than the expected value, else false
 func (s StringValue) IsGreaterThan(expected interface{}) bool {
-	return s.greaterThan(NewStringValue(expected))
+	return s.greaterThan(NewStringValue(s.decoratedValue(expected)))
 }
 
 // IsGreaterOrEqualTo returns true if the value is greater than or equal to the expected value, else false
 func (s StringValue) IsGreaterOrEqualTo(expected interface{}) bool {
-	return s.greaterOrEqual(NewStringValue(expected))
+	return s.greaterOrEqual(NewStringValue(s.decoratedValue(expected)))
 }
 
 // IsLessThan returns true if the value is less than the expected value, else false
 func (s StringValue) IsLessThan(expected interface{}) bool {
-	return !s.IsGreaterOrEqualTo(expected)
+	return !s.IsGreaterOrEqualTo(s.decoratedValue(expected))
 }
 
 // IsLessOrEqualTo returns true if the value is less than or equal to the expected value, else false
 func (s StringValue) IsLessOrEqualTo(expected interface{}) bool {
-	return !s.IsGreaterThan(expected)
+	return !s.IsGreaterThan(s.decoratedValue(expected))
 }
 
 // IsEmpty returns true if the string is empty else false
 func (s StringValue) IsEmpty() bool {
-	return s.value == ""
+	return s.DecoratedValue() == ""
 }
 
 // IsNotEmpty returns true if the string is not empty else false
@@ -51,13 +55,13 @@ func (s StringValue) IsNotEmpty() bool {
 }
 
 // Contains returns true if the string contains the given sub-string
-func (s StringValue) Contains(element interface{}) bool {
-	return strings.Contains(s.value, NewStringValue(element).value)
+func (s StringValue) Contains(expected interface{}) bool {
+	return strings.Contains(s.DecoratedValue(), NewStringValue(s.decoratedValue(expected)).value)
 }
 
 // DoesNotContain returns true if the string does not contain the given sub-string
-func (s StringValue) DoesNotContain(elements interface{}) bool {
-	return !s.Contains(elements)
+func (s StringValue) DoesNotContain(expected interface{}) bool {
+	return !s.Contains(s.decoratedValue(expected))
 }
 
 // HasSize returns true if the string has the expected size else false
@@ -70,18 +74,28 @@ func (s StringValue) Size() int {
 	return len(s.value)
 }
 
+// StartsWith returns true if the asserted value starts with the given string, else false
+func (s StringValue) StartsWith(substr string) bool {
+	return strings.HasPrefix(s.DecoratedValue(), s.decoratedValue(substr))
+}
+
+// EndsWith returns true if the asserted value ends with the given string, else false
+func (s StringValue) EndsWith(substr string) bool {
+	return strings.HasSuffix(s.DecoratedValue(), s.decoratedValue(substr))
+}
+
 // ContainsOnly returns true if the string contains only the given sub-string
 // In other words if performs an equal operation
-func (s StringValue) ContainsOnly(elements interface{}) bool {
-	return s.IsEqualTo(elements)
+func (s StringValue) ContainsOnly(expected interface{}) bool {
+	return s.IsEqualTo(s.decoratedValue(expected))
 }
 
 func (s StringValue) greaterThan(expected StringValue) bool {
-	return s.value > expected.value
+	return s.DecoratedValue() > expected.value
 }
 
 func (s StringValue) greaterOrEqual(expected StringValue) bool {
-	return s.value >= expected.value
+	return s.DecoratedValue() >= expected.value
 }
 
 // NewStringValue creates and returns a StringValue struct initialed with the given value
@@ -92,4 +106,23 @@ func NewStringValue(value interface{}) StringValue {
 	default:
 		panic(fmt.Sprintf("expected string value type but got %T type", v))
 	}
+}
+
+// AddDecorator adds a new string decorator to the assertable string value
+func (s StringValue) AddDecorator(decorator StringDecorator) StringValue {
+	s.decorators = append(s.decorators, decorator)
+	return s
+}
+
+func (s StringValue) decoratedValue(value interface{}) string {
+	decoratedValue := value.(string)
+	for _, decorator := range s.decorators {
+		decoratedValue = decorator(decoratedValue)
+	}
+	return decoratedValue
+}
+
+// DecoratedValue returns the asserted string value after applying all the defined decorators
+func (s StringValue) DecoratedValue() string {
+	return s.decoratedValue(s.value)
 }
