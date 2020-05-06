@@ -18,8 +18,8 @@ func NewFluentT(t *testing.T) *FluentT { // nolint
 }
 
 // AssertThatString initializes an assertable string to be used for asserting string properties
-func (t FluentT) AssertThatString(actual string) AssertableString {
-	return ThatString(t.t, actual)
+func (t FluentT) AssertThatString(actual string, opts ...StringOpt) AssertableString {
+	return ThatString(t.t, actual, opts...)
 }
 
 // AssertThatBool initializes an assertable bool to be used for asserting bool properties

@@ -43,12 +43,15 @@ func (s MapValue) IsNotEmpty() bool {
 
 // HasSize returns true if the map has the expected size else false
 func (s MapValue) HasSize(length int) bool {
-	return reflect.ValueOf(s.Value()).Len() == length
+	return s.Size() == length
 }
 
 // Size returns the map size
 func (s MapValue) Size() int {
-	return 0
+	if !IsMap(s.Value()) {
+		return 0
+	}
+	return reflect.ValueOf(s.Value()).Len()
 }
 
 func (s MapValue) hasKeyValue(key, value interface{}) bool {

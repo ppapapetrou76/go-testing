@@ -1,10 +1,14 @@
 package assert
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/ppapapetrou76/go-testing/internal/pkg/values"
 )
+
+// StringOpt is a configuration option to initialize an AssertableString
+type StringOpt func(*AssertableString)
 
 // AssertableString is the implementation of CommonAssertable for string types
 type AssertableString struct {
@@ -12,12 +16,23 @@ type AssertableString struct {
 	actual values.StringValue
 }
 
+// IgnoringCase sets underlying value to lower case
+func IgnoringCase() StringOpt {
+	return func(c *AssertableString) {
+		c.actual = c.actual.AddDecorator(strings.ToLower)
+	}
+}
+
 // ThatString returns an AssertableString structure initialized with the test reference and the actual value to assert
-func ThatString(t *testing.T, actual string) AssertableString {
-	return AssertableString{
+func ThatString(t *testing.T, actual string, opts ...StringOpt) AssertableString {
+	assertable := &AssertableString{
 		t:      t,
 		actual: values.NewStringValue(actual),
 	}
+	for _, opt := range opts {
+		opt(assertable)
+	}
+	return *assertable
 }
 
 // IsEqualTo asserts if the expected string is equal to the assertable string value
@@ -79,6 +94,33 @@ func (a AssertableString) ContainsOnly(substring string) AssertableString {
 func (a AssertableString) DoesNotContain(substring string) AssertableString {
 	if a.actual.Contains(substring) {
 		a.t.Error(shouldNotContain(a.actual, substring))
+	}
+	return a
+}
+
+// StartsWith asserts if the assertable string starts with the given substring
+// It errors the test if it doesn't start with the given substring
+func (a AssertableString) StartsWith(substring string) AssertableString {
+	if !a.actual.StartsWith(substring) {
+		a.t.Error(shouldStartWith(a.actual, substring))
+	}
+	return a
+}
+
+// EndsWith asserts if the assertable string ends with the given substring
+// It errors the test if it doesn't end with the given substring
+func (a AssertableString) EndsWith(substring string) AssertableString {
+	if !a.actual.EndsWith(substring) {
+		a.t.Error(shouldEndWith(a.actual, substring))
+	}
+	return a
+}
+
+// HasSameSizeAs asserts if the assertable string has the same size with the given string
+// It errors the test if they don't have the same size
+func (a AssertableString) HasSameSizeAs(substring string) AssertableString {
+	if !(a.actual.Size() == len(substring)) {
+		a.t.Error(shouldHaveSameSizeAs(a.actual, substring))
 	}
 	return a
 }
