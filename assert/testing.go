@@ -47,6 +47,11 @@ func (t FluentT) AssertThatTime(actual time.Time) AssertableTime {
 	return ThatTime(t.t, actual)
 }
 
+// AssertThatDuration initializes an assertable time.Duration to be used for asserting time.Duration properties
+func (t FluentT) AssertThatDuration(actual time.Duration) AssertableDuration {
+	return ThatDuration(t.t, actual)
+}
+
 // AssertThat initializes an assertable object to be used for asserting properties of any type
 // The things we can assert using this type are limited
 func (t FluentT) AssertThat(actual interface{}) AssertableAny {

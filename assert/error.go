@@ -102,3 +102,11 @@ func shouldEndWith(actual types.Assertable, substr string) string {
 func shouldHaveSameSizeAs(actual types.Assertable, substr string) string {
 	return fmt.Sprintf("assertion failed: expected size of [%v] should be same as the size of [%+v], but it isn't", actual.Value(), substr)
 }
+
+func shouldBeShorter(actual types.Assertable, expected interface{}) string {
+	return fmt.Sprintf("assertion failed: expected value of = %+v, to be greater than %+v", actual.Value(), expected)
+}
+
+func shouldBeLonger(actual types.Assertable, expected interface{}) string {
+	return fmt.Sprintf("assertion failed: expected value of = %+v, to be longer than %+v", actual.Value(), expected)
+}
