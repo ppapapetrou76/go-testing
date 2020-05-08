@@ -352,3 +352,55 @@ func TestAssertableString_HasSameSizeAs(t *testing.T) {
 		})
 	}
 }
+
+func TestAssertableString_ContainsOnlyDigits(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     string
+		shouldFail bool
+	}{
+		{
+			name:       "should succeed if it only contains digits",
+			actual:     "1234567890",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if it only contains one digit",
+			actual:     "4",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if it contains huge number",
+			actual:     "18446744073709551616",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if it contains huge number and a character",
+			actual:     "a18446744073709551616",
+			shouldFail: true,
+		},
+		{
+			name:       "should fail if contains a letter",
+			actual:     "01e",
+			shouldFail: true,
+		},
+		{
+			name:       "should fail if contains only letters",
+			actual:     "test",
+			shouldFail: true,
+		},
+		{
+			name:       "should fail if contains empty string",
+			actual:     " ",
+			shouldFail: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ft := NewFluentT(test)
+			ft.AssertThatString(tt.actual).ContainsOnlyDigits()
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}

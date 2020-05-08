@@ -3,6 +3,7 @@ package values
 import (
 	"fmt"
 	"strings"
+	"unicode"
 )
 
 // StringValue value represents a string value
@@ -96,6 +97,16 @@ func (s StringValue) greaterThan(expected StringValue) bool {
 
 func (s StringValue) greaterOrEqual(expected StringValue) bool {
 	return s.DecoratedValue() >= expected.value
+}
+
+// HasDigitsOnly returns true if the string has only digits else false
+func (s StringValue) HasDigitsOnly() bool {
+	for _, c := range s.DecoratedValue() {
+		if !unicode.IsDigit(c) {
+			return false
+		}
+	}
+	return true
 }
 
 // NewStringValue creates and returns a StringValue struct initialed with the given value

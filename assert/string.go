@@ -124,3 +124,12 @@ func (a AssertableString) HasSameSizeAs(substring string) AssertableString {
 	}
 	return a
 }
+
+// ContainsOnlyDigits asserts if the expected string contains only digits
+// It errors the tests if the string has other characters than digits
+func (a AssertableString) ContainsOnlyDigits() AssertableString {
+	if !(a.actual.HasDigitsOnly()) {
+		a.t.Error(shouldContainOnlyDigits(a.actual))
+	}
+	return a
+}

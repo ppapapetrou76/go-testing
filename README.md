@@ -76,7 +76,6 @@ For the following types basic assertions are supported
   * time.Time (basic assertions)
   * moar string assertions
     * [ ] ContainsIgnoringCase
-    * [ ] ContainsOnlyDigits
     * [ ] ContainsOnlyOnce
     * [ ] ContainsOnlyWhitespaces
     * [ ] ContainsWhitespaces
