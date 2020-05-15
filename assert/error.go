@@ -55,6 +55,10 @@ func shouldContain(actual types.Assertable, elements interface{}) string {
 	return fmt.Sprintf("assertion failed: containable [%v] should contain [%+v], but it doesn't", actual.Value(), elements)
 }
 
+func shouldContainIgnoringCase(actual types.Assertable, elements interface{}) string {
+	return fmt.Sprintf("assertion failed: containable [%v] should contain [%+v] ignoring case, but it doesn't", actual.Value(), elements)
+}
+
 func shouldContainOnly(actual types.Assertable, elements interface{}) string {
 	return fmt.Sprintf("assertion failed: containable [%v] should contain only [%+v], but it doesn't", actual.Value(), elements)
 }

@@ -159,6 +159,49 @@ func TestAssertableString_Contains(t *testing.T) {
 	}
 }
 
+func TestAssertableString_ContainsIgnoringCase(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     string
+		substring  string
+		shouldFail bool
+		stringOpts []StringOpt
+	}{
+		{
+			name:       "should succeed if it only contains the expected sub-string",
+			actual:     "I'm a happy man",
+			substring:  "I'm a happy man",
+			shouldFail: false,
+		},
+		{
+			name:       "should fail if doesn't contain only the expected sub-string",
+			actual:     "I'm a happy man",
+			substring:  " happy man",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if it only contains the expected sub-string with ignoring case",
+			actual:     "I'm a happy man",
+			substring:  "a HAPPY man",
+			shouldFail: false,
+		},
+		{
+			name:       "should fail if doesn't contain only the expected sub-string",
+			actual:     "I'm a happy man",
+			substring:  "sad man",
+			shouldFail: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ft := NewFluentT(test)
+			ft.AssertThatString(tt.actual, tt.stringOpts...).ContainsIgnoringCase(tt.substring)
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
 func TestAssertableString_ContainsOnly(t *testing.T) {
 	tests := []struct {
 		name       string
