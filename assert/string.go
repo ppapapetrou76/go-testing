@@ -80,6 +80,15 @@ func (a AssertableString) Contains(substring string) AssertableString {
 	return a
 }
 
+// ContainsIgnoringCase asserts if the assertable string contains the given element(s) case insensitively
+// It errors the test if it does not contain it
+func (a AssertableString) ContainsIgnoringCase(substring string) AssertableString {
+	if !a.actual.ContainsIgnoringCase(substring) {
+		a.t.Error(shouldContainIgnoringCase(a.actual, substring))
+	}
+	return a
+}
+
 // ContainsOnly asserts if the assertable string only contains the given substring
 // It errors the test if it does not contain it
 func (a AssertableString) ContainsOnly(substring string) AssertableString {

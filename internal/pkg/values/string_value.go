@@ -60,6 +60,11 @@ func (s StringValue) Contains(expected interface{}) bool {
 	return strings.Contains(s.DecoratedValue(), NewStringValue(s.decoratedValue(expected)).value)
 }
 
+// ContainsIgnoringCase returns true if the string contains the given sub-string case insensitively
+func (s StringValue) ContainsIgnoringCase(expected interface{}) bool {
+	return strings.Contains(strings.ToLower(s.DecoratedValue()), NewStringValue(strings.ToLower(s.decoratedValue(expected))).value)
+}
+
 // DoesNotContain returns true if the string does not contain the given sub-string
 func (s StringValue) DoesNotContain(expected interface{}) bool {
 	return !s.Contains(s.decoratedValue(expected))
