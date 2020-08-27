@@ -96,6 +96,11 @@ func (s StringValue) ContainsOnly(expected interface{}) bool {
 	return s.IsEqualTo(s.decoratedValue(expected))
 }
 
+// ContainsOnlyOnce returns true if the string contains the given sub-string only once
+func (s StringValue) ContainsOnlyOnce(substr string) bool {
+	return strings.Count(s.DecoratedValue(), s.decoratedValue(substr)) == 1
+}
+
 func (s StringValue) greaterThan(expected StringValue) bool {
 	return s.DecoratedValue() > expected.value
 }

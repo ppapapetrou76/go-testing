@@ -240,6 +240,50 @@ func TestAssertableString_ContainsOnly(t *testing.T) {
 	}
 }
 
+func TestAssertableString_ContainsOnlyOnce(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     string
+		substring  string
+		shouldFail bool
+		stringOpts []StringOpt
+	}{
+		{
+			name:       "should succeed if it contains the expected sub-string only once",
+			actual:     "I'm a happy man",
+			substring:  "happy man",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if it contains the expected sub-string with ignoring case only once",
+			actual:     "I'm a happy MAN",
+			substring:  "HAPPY man",
+			shouldFail: false,
+			stringOpts: []StringOpt{IgnoringCase()},
+		},
+		{
+			name:       "should fail if doesn't contain the expected sub-string",
+			actual:     "I'm a happy man",
+			substring:  "sad man",
+			shouldFail: true,
+		},
+		{
+			name:       "should fail if it contains the expected sub-string more than once",
+			actual:     "I'm a happy man, you're a happy man",
+			substring:  "happy man",
+			shouldFail: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ft := NewFluentT(test)
+			ft.AssertThatString(tt.actual, tt.stringOpts...).ContainsOnlyOnce(tt.substring)
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
 func TestAssertableString_DoesNotContain(t *testing.T) {
 	tests := []struct {
 		name       string

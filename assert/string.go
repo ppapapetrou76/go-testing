@@ -98,6 +98,15 @@ func (a AssertableString) ContainsOnly(substring string) AssertableString {
 	return a
 }
 
+// ContainsOnlyOnce asserts if the assertable string contains the given substring only once
+// It errors the test if it does not contain it or contains more than once
+func (a AssertableString) ContainsOnlyOnce(substring string) AssertableString {
+	if !a.actual.ContainsOnlyOnce(substring) {
+		a.t.Error(shouldContainOnlyOnce(a.actual, substring))
+	}
+	return a
+}
+
 // DoesNotContain asserts if the assertable string does not contain the given substring
 // It errors the test if it contains it
 func (a AssertableString) DoesNotContain(substring string) AssertableString {
