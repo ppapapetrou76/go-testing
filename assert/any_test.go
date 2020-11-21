@@ -1,6 +1,9 @@
 package assert
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestAssertable_IsNil(t *testing.T) {
 	tests := []struct {
@@ -101,6 +104,32 @@ func TestAssertable_IsFalse(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			test := &testing.T{}
 			That(test, tt.actual).IsFalse()
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
+func TestAssertableAny_HasTypeOf(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     interface{}
+		shouldFail bool
+	}{
+		{
+			name:       "should assert the same types",
+			actual:     "123",
+			shouldFail: false,
+		},
+		{
+			name:       "should assert different types",
+			actual:     true,
+			shouldFail: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			That(test, tt.actual).HasTypeOf(reflect.TypeOf(""))
 			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
 		})
 	}

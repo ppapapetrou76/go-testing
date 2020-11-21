@@ -71,6 +71,11 @@ func (s AnyValue) IsNotNil() bool {
 	return !s.IsNil()
 }
 
+// IsTypeOf returns true if the value is of the given type else false
+func (s AnyValue) HasTypeOf(t reflect.Type) bool {
+	return reflect.TypeOf(s.value) == t
+}
+
 // NewAnyValue creates and returns an AnyValue struct initialed with the given value
 func NewAnyValue(value interface{}) AnyValue {
 	switch v := value.(type) {
