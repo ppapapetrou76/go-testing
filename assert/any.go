@@ -1,6 +1,7 @@
 package assert
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/ppapapetrou76/go-testing/internal/pkg/values"
@@ -63,5 +64,13 @@ func (a AssertableAny) IsTrue() AssertableAny {
 // IsFalse asserts if the expected value is false
 func (a AssertableAny) IsFalse() AssertableAny {
 	a.IsEqualTo(false)
+	return a
+}
+
+// HasTypeOf asserts if the expected value has the type of a given value
+func (a AssertableAny) HasTypeOf(t reflect.Type) AssertableAny {
+	if !a.actual.HasTypeOf(t) {
+		a.t.Error(shouldHaveType(a.actual, t))
+	}
 	return a
 }
