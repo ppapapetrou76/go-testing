@@ -71,7 +71,7 @@ func (s AnyValue) IsNotNil() bool {
 	return !s.IsNil()
 }
 
-// IsTypeOf returns true if the value is of the given type else false
+// HasTypeOf returns true if the value is of the given type else false
 func (s AnyValue) HasTypeOf(t reflect.Type) bool {
 	return reflect.TypeOf(s.value) == t
 }
