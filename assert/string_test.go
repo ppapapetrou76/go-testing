@@ -159,6 +159,49 @@ func TestAssertableString_Contains(t *testing.T) {
 	}
 }
 
+func TestAssertableString_ContainsIgnoringCase(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     string
+		substring  string
+		shouldFail bool
+		stringOpts []StringOpt
+	}{
+		{
+			name:       "should succeed if it only contains the expected sub-string",
+			actual:     "I'm a happy man",
+			substring:  "I'm a happy man",
+			shouldFail: false,
+		},
+		{
+			name:       "should fail if doesn't contain only the expected sub-string",
+			actual:     "I'm a happy man",
+			substring:  " happy man",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if it only contains the expected sub-string with ignoring case",
+			actual:     "I'm a happy man",
+			substring:  "a HAPPY man",
+			shouldFail: false,
+		},
+		{
+			name:       "should fail if doesn't contain only the expected sub-string",
+			actual:     "I'm a happy man",
+			substring:  "sad man",
+			shouldFail: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ft := NewFluentT(test)
+			ft.AssertThatString(tt.actual, tt.stringOpts...).ContainsIgnoringCase(tt.substring)
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
 func TestAssertableString_ContainsOnly(t *testing.T) {
 	tests := []struct {
 		name       string
@@ -192,6 +235,50 @@ func TestAssertableString_ContainsOnly(t *testing.T) {
 			test := &testing.T{}
 			ft := NewFluentT(test)
 			ft.AssertThatString(tt.actual, tt.stringOpts...).ContainsOnly(tt.substring)
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
+func TestAssertableString_ContainsOnlyOnce(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     string
+		substring  string
+		shouldFail bool
+		stringOpts []StringOpt
+	}{
+		{
+			name:       "should succeed if it contains the expected sub-string only once",
+			actual:     "I'm a happy man",
+			substring:  "happy man",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if it contains the expected sub-string with ignoring case only once",
+			actual:     "I'm a happy MAN",
+			substring:  "HAPPY man",
+			shouldFail: false,
+			stringOpts: []StringOpt{IgnoringCase()},
+		},
+		{
+			name:       "should fail if doesn't contain the expected sub-string",
+			actual:     "I'm a happy man",
+			substring:  "sad man",
+			shouldFail: true,
+		},
+		{
+			name:       "should fail if it contains the expected sub-string more than once",
+			actual:     "I'm a happy man, you're a happy man",
+			substring:  "happy man",
+			shouldFail: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ft := NewFluentT(test)
+			ft.AssertThatString(tt.actual, tt.stringOpts...).ContainsOnlyOnce(tt.substring)
 			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
 		})
 	}
@@ -348,6 +435,58 @@ func TestAssertableString_HasSameSizeAs(t *testing.T) {
 			test := &testing.T{}
 			ft := NewFluentT(test)
 			ft.AssertThatString(tt.actual).HasSameSizeAs(tt.substring)
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
+func TestAssertableString_ContainsOnlyDigits(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     string
+		shouldFail bool
+	}{
+		{
+			name:       "should succeed if it only contains digits",
+			actual:     "1234567890",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if it only contains one digit",
+			actual:     "4",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if it contains huge number",
+			actual:     "18446744073709551616",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if it contains huge number and a character",
+			actual:     "a18446744073709551616",
+			shouldFail: true,
+		},
+		{
+			name:       "should fail if contains a letter",
+			actual:     "01e",
+			shouldFail: true,
+		},
+		{
+			name:       "should fail if contains only letters",
+			actual:     "test",
+			shouldFail: true,
+		},
+		{
+			name:       "should fail if contains empty string",
+			actual:     " ",
+			shouldFail: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ft := NewFluentT(test)
+			ft.AssertThatString(tt.actual).ContainsOnlyDigits()
 			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
 		})
 	}

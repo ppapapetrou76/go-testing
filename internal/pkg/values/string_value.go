@@ -3,6 +3,7 @@ package values
 import (
 	"fmt"
 	"strings"
+	"unicode"
 )
 
 // StringValue value represents a string value
@@ -59,6 +60,11 @@ func (s StringValue) Contains(expected interface{}) bool {
 	return strings.Contains(s.DecoratedValue(), NewStringValue(s.decoratedValue(expected)).value)
 }
 
+// ContainsIgnoringCase returns true if the string contains the given sub-string case insensitively
+func (s StringValue) ContainsIgnoringCase(expected interface{}) bool {
+	return strings.Contains(strings.ToLower(s.DecoratedValue()), NewStringValue(strings.ToLower(s.decoratedValue(expected))).value)
+}
+
 // DoesNotContain returns true if the string does not contain the given sub-string
 func (s StringValue) DoesNotContain(expected interface{}) bool {
 	return !s.Contains(s.decoratedValue(expected))
@@ -90,12 +96,27 @@ func (s StringValue) ContainsOnly(expected interface{}) bool {
 	return s.IsEqualTo(s.decoratedValue(expected))
 }
 
+// ContainsOnlyOnce returns true if the string contains the given sub-string only once
+func (s StringValue) ContainsOnlyOnce(substr string) bool {
+	return strings.Count(s.DecoratedValue(), s.decoratedValue(substr)) == 1
+}
+
 func (s StringValue) greaterThan(expected StringValue) bool {
 	return s.DecoratedValue() > expected.value
 }
 
 func (s StringValue) greaterOrEqual(expected StringValue) bool {
 	return s.DecoratedValue() >= expected.value
+}
+
+// HasDigitsOnly returns true if the string has only digits else false
+func (s StringValue) HasDigitsOnly() bool {
+	for _, c := range s.DecoratedValue() {
+		if !unicode.IsDigit(c) {
+			return false
+		}
+	}
+	return true
 }
 
 // NewStringValue creates and returns a StringValue struct initialed with the given value
