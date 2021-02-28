@@ -72,6 +72,24 @@ func (a AssertableString) IsEmpty() AssertableString {
 	return a
 }
 
+// IsLowerCase asserts if the expected string is lower case
+// It errors the tests if the string is not lower case.
+func (a AssertableString) IsLowerCase() AssertableString {
+	if !a.actual.IsLowerCase() {
+		a.t.Error(shouldBeLowerCase(a.actual))
+	}
+	return a
+}
+
+// IsUpperCase asserts if the expected string is upper case
+// It errors the tests if the string is not upper case.
+func (a AssertableString) IsUpperCase() AssertableString {
+	if !a.actual.IsUpperCase() {
+		a.t.Error(shouldBeUpperCase(a.actual))
+	}
+	return a
+}
+
 // IsNotEmpty asserts if the expected string is not empty
 // It errors the tests if the string is empty.
 func (a AssertableString) IsNotEmpty() AssertableString {

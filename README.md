@@ -89,11 +89,11 @@ For the following types basic assertions are supported
     * [ ] HasSizeGreaterThanOrEqualTo
     * [ ] HasSizeLessThan
     * [ ] HasSizeLessThanOrEqualTo
-    * [ ] IsEqualToIgnoringCase
+    * [x] IsEqualToIgnoringCase
     * [ ] IsEqualToIgnoringNewLines
     * [x] IsEqualToIgnoringWhitespace
-    * [ ] IsLowerCase
-    * [ ] IsNotEqualToIgnoringCase
+    * [x] IsLowerCase
+    * [x] IsNotEqualToIgnoringCase
     * [x] IsNotEqualToIgnoringWhitespace
     * [ ] IsSubstringOf
-    * [ ] IsUpperCase
+    * [x] IsUpperCase
