@@ -3,12 +3,38 @@ package assert
 import (
 	"fmt"
 	"reflect"
+	"strings"
 
+	utils2 "github.com/ppapapetrou76/go-testing/internal/pkg/utils"
 	"github.com/ppapapetrou76/go-testing/types"
+	"github.com/r3labs/diff/v2"
 )
 
 func shouldBeEqual(actual types.Assertable, expected interface{}) string {
-	return fmt.Sprintf("assertion failed: expected value of = %+v, to be equal to %+v", actual.Value(), expected)
+	diffMessage := strings.Builder{}
+	skipDetailedDiff := utils2.HasUnexportedFields(reflect.ValueOf(expected)) || utils2.HasUnexportedFields(reflect.ValueOf(actual.Value()))
+
+	if !skipDetailedDiff {
+		diffs, _ := diff.Diff(expected, actual.Value())
+		for _, d := range diffs {
+			if len(d.Path) == 0 {
+				continue
+			}
+			switch d.Type {
+			case "delete":
+				path := strings.Join(d.Path, ":")
+				diffMessage.WriteString(fmt.Sprintf("actual value of %+v is expected but missing from %s\n", d.To, path))
+			case "create":
+				path := strings.Join(d.Path, ":")
+				diffMessage.WriteString(fmt.Sprintf("actual value of %+v is not expected in %s\n", d.To, path))
+			case "update":
+				path := strings.Join(d.Path, ":")
+				diffMessage.WriteString(fmt.Sprintf("actual value of %+v is different in %s from %+v\n", d.To, path, d.From))
+			}
+		}
+	}
+
+	return fmt.Sprintf("assertion failed:\nexpected value\t:%+v\nactual value\t:%+v\n%s", expected, actual.Value(), diffMessage.String())
 }
 
 func shouldNotBeEqual(actual types.Assertable, expected interface{}) string {

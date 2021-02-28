@@ -2,4 +2,4 @@ module github.com/ppapapetrou76/go-testing
 
 go 1.15
 
-require github.com/mbndr/figlet4go v0.0.0-20190224160619-d6cef5b186ea // indirect
+require github.com/r3labs/diff/v2 v2.12.0
