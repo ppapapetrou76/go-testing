@@ -35,6 +35,26 @@ func Test_shouldBeEqual(t *testing.T) {
 				"actual value\t:{boolField:false}\n",
 		},
 		{
+			name:     "should return expected message when slices are not equal",
+			actual:   values.NewSliceValue([]string{"elem1", "elem2", "elem3"}),
+			expected: []string{"elem1", "elem4"},
+			expectedMessage: "assertion failed:\n" +
+				"expected value\t:[elem1 elem4]\n" +
+				"actual value\t:[elem1 elem2 elem3]\n" +
+				"actual value of elem2 is different in 1 from elem4\n" +
+				"actual value of elem3 is not expected in 2\n",
+		},
+		{
+			name:     "should return expected message when maps are not equal",
+			actual:   values.NewKeyStringMap(map[string]int{"1": 2, "2": 2}),
+			expected: map[string]int{"1": 1},
+			expectedMessage: "assertion failed:\n" +
+				"expected value\t:map[1:1]\n" +
+				"actual value\t:map[1:2 2:2]\n" +
+				"actual value of 2 is different in 1 from 1\n" +
+				"actual value of 2 is not expected in 2\n",
+		},
+		{
 			name:            "should return expected message when simple types are not equal",
 			actual:          values.NewStringValue("i'm a simple type"),
 			expected:        "i'm a simple type but not equal",
