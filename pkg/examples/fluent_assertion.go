@@ -2,8 +2,8 @@ package examples
 
 
 type assertedStruct struct {
-	boolField   bool
-	stringField string
-	intField    int
-	sliceField  []string
+	BoolField   bool
+	StringField string
+	IntField    int
+	SliceField  []string
 }
