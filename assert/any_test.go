@@ -109,6 +109,41 @@ func TestAssertable_IsFalse(t *testing.T) {
 	}
 }
 
+func TestAssertableAny_IsEqualTo(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     interface{}
+		expected   interface{}
+		shouldFail bool
+	}{
+		{
+			name:       "should assert a string slice which is not equal to expected",
+			actual:     []string{"123", "321"},
+			expected:   []string{"123"},
+			shouldFail: true,
+		},
+		{
+			name:       "should assert a string slice which is equal to expected",
+			actual:     []string{"123", "321"},
+			expected:   []string{"123", "321"},
+			shouldFail: false,
+		},
+		{
+			name:       "should assert a string slice when the expected is of different type",
+			actual:     []string{"123"},
+			expected:   "123",
+			shouldFail: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			That(test, tt.actual).IsEqualTo(tt.expected)
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
 func TestAssertableAny_HasTypeOf(t *testing.T) {
 	tests := []struct {
 		name       string

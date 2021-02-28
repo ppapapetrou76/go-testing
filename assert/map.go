@@ -7,14 +7,15 @@ import (
 	"github.com/ppapapetrou76/go-testing/types"
 )
 
-// AssertableMap is the structure to assert maps
+// AssertableMap is the structure to assert maps.
 type AssertableMap struct {
 	t      *testing.T
 	actual types.Map
 }
 
-// ThatMap returns a proper assertable structure based on the map key type
+// ThatMap returns a proper assertable structure based on the map key type.
 func ThatMap(t *testing.T, actual interface{}) AssertableMap {
+	t.Helper()
 	return AssertableMap{
 		t:      t,
 		actual: values.NewKeyStringMap(actual),
@@ -22,7 +23,7 @@ func ThatMap(t *testing.T, actual interface{}) AssertableMap {
 }
 
 // IsEqualTo asserts if the expected map is equal to the assertable map value
-// It errors the tests if the compared values (actual VS expected) are not equal
+// It errors the tests if the compared values (actual VS expected) are not equal.
 func (a AssertableMap) IsEqualTo(expected interface{}) AssertableMap {
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
@@ -36,7 +37,7 @@ func (a AssertableMap) IsEqualTo(expected interface{}) AssertableMap {
 }
 
 // IsNotEqualTo asserts if the expected map is not equal to the assertable map value
-// It errors the tests if the compared values (actual VS expected) are equal
+// It errors the tests if the compared values (actual VS expected) are equal.
 func (a AssertableMap) IsNotEqualTo(expected interface{}) AssertableMap {
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
@@ -49,7 +50,7 @@ func (a AssertableMap) IsNotEqualTo(expected interface{}) AssertableMap {
 }
 
 // HasSize asserts if the assertable string map has the expected length size
-// It errors the test if it doesn't have the expected size
+// It errors the test if it doesn't have the expected size.
 func (a AssertableMap) HasSize(size int) AssertableMap {
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
@@ -61,7 +62,7 @@ func (a AssertableMap) HasSize(size int) AssertableMap {
 	return a
 }
 
-// IsEmpty asserts if the assertable string map is empty or not
+// IsEmpty asserts if the assertable string map is empty or not.
 func (a AssertableMap) IsEmpty() AssertableMap {
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
@@ -73,7 +74,7 @@ func (a AssertableMap) IsEmpty() AssertableMap {
 	return a
 }
 
-// IsNotEmpty asserts if the assertable string map is not empty
+// IsNotEmpty asserts if the assertable string map is not empty.
 func (a AssertableMap) IsNotEmpty() AssertableMap {
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
@@ -89,7 +90,7 @@ func (a AssertableMap) IsNotEmpty() AssertableMap {
 // It errors the test if
 // * they key can't be found
 // * the key is not comparable
-// * the asserted type is not a map
+// * the asserted type is not a map.
 func (a AssertableMap) HasKey(elements interface{}) AssertableMap {
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
@@ -105,7 +106,7 @@ func (a AssertableMap) HasKey(elements interface{}) AssertableMap {
 // It errors the test if
 // * they key can't be found
 // * the key is not comparable
-// * the asserted type is not a map
+// * the asserted type is not a map.
 func (a AssertableMap) HasValue(elements interface{}) AssertableMap {
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
@@ -121,7 +122,7 @@ func (a AssertableMap) HasValue(elements interface{}) AssertableMap {
 // It errors the test if
 // * they entry can't be found
 // * the key is not comparable
-// * the asserted type is not a map
+// * the asserted type is not a map.
 func (a AssertableMap) HasEntry(value types.MapEntry) AssertableMap {
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
@@ -137,7 +138,7 @@ func (a AssertableMap) HasEntry(value types.MapEntry) AssertableMap {
 // It errors the test if
 // * they key is found
 // * the key is not comparable
-// * the asserted type is not a map
+// * the asserted type is not a map.
 func (a AssertableMap) HasNotKey(elements interface{}) AssertableMap {
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
@@ -153,7 +154,7 @@ func (a AssertableMap) HasNotKey(elements interface{}) AssertableMap {
 // It errors the test if
 // * they key can be found
 // * the key is not comparable
-// * the asserted type is not a map
+// * the asserted type is not a map.
 func (a AssertableMap) HasNotValue(elements interface{}) AssertableMap {
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
@@ -169,7 +170,7 @@ func (a AssertableMap) HasNotValue(elements interface{}) AssertableMap {
 // It errors the test if
 // * they entry can be found
 // * the key is not comparable
-// * the asserted type is not a map
+// * the asserted type is not a map.
 func (a AssertableMap) HasNotEntry(value types.MapEntry) AssertableMap {
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))

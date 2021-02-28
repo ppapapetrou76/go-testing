@@ -203,6 +203,11 @@ func TestAssertableSlice_HasSize(t *testing.T) {
 }
 
 func TestAssertableSlice_Contains(t *testing.T) {
+	type testStruct struct {
+		Value1 string
+		Value2 int
+	}
+
 	tests := []struct {
 		name              string
 		actual            interface{}
@@ -232,6 +237,24 @@ func TestAssertableSlice_Contains(t *testing.T) {
 			actual:            2,
 			elementsToContain: []string{"element", "element4"},
 			shouldFail:        true,
+		},
+		{
+			name: "should succeed if contains runs on a single element not wrapped as slice",
+			actual: []testStruct{
+				{
+					Value1: "123",
+					Value2: 123,
+				},
+				{
+					Value1: "133",
+					Value2: 133,
+				},
+			},
+			elementsToContain: testStruct{
+				Value1: "123",
+				Value2: 123,
+			},
+			shouldFail: false,
 		},
 	}
 	for _, tt := range tests {

@@ -1,17 +1,17 @@
 package types
 
-// Assertable is the basic interface for all assertable values
+// Assertable is the basic interface for all assertable values.
 type Assertable interface {
 	Value() interface{}
 }
 
-// Comparable is the interface for basic comparable operations
+// Comparable is the interface for basic comparable operations.
 type Comparable interface {
 	IsEqualTo(expected interface{}) bool
 	Assertable
 }
 
-// ExtendedComparable is the interface for advanced comparable operations
+// ExtendedComparable is the interface for advanced comparable operations.
 type ExtendedComparable interface {
 	IsGreaterOrEqualTo(expected interface{}) bool
 	IsGreaterThan(expected interface{}) bool
@@ -20,7 +20,7 @@ type ExtendedComparable interface {
 	Comparable
 }
 
-// Sizeable is the interface for operations related to sizeable values
+// Sizeable is the interface for operations related to sizeable values.
 type Sizeable interface {
 	IsEmpty() bool
 	IsNotEmpty() bool
@@ -29,7 +29,7 @@ type Sizeable interface {
 	Comparable
 }
 
-// Containable is the interface for operations related to containable values such as string or slice
+// Containable is the interface for operations related to containable values such as string or slice.
 type Containable interface {
 	Contains(elements interface{}) bool
 	ContainsOnly(elements interface{}) bool
@@ -37,14 +37,14 @@ type Containable interface {
 	Sizeable
 }
 
-// Nullable is the interface for operations related to nullable values such as pointers or slices
+// Nullable is the interface for operations related to nullable values such as pointers or slices.
 type Nullable interface {
 	IsNil() bool
 	IsNotNil() bool
 	Assertable
 }
 
-// Map is the interface for operations related to map values
+// Map is the interface for operations related to map values.
 type Map interface {
 	HasKey(key interface{}) bool
 	HasValue(value interface{}) bool
@@ -52,22 +52,22 @@ type Map interface {
 	Sizeable
 }
 
-// MapEntry is the struct to represent a key-value pair used in maps
+// MapEntry is the struct to represent a key-value pair used in maps.
 type MapEntry struct {
 	key, value interface{}
 }
 
-// Key returns the key of the map entry
+// Key returns the key of the map entry.
 func (entry MapEntry) Key() interface{} {
 	return entry.key
 }
 
-// Value returns the value of the map entry
+// Value returns the value of the map entry.
 func (entry MapEntry) Value() interface{} {
 	return entry.value
 }
 
-// NewMapEntry creates and returns a new map entry with the given values of key and value fields
+// NewMapEntry creates and returns a new map entry with the given values of key and value fields.
 func NewMapEntry(key, value interface{}) MapEntry {
 	return MapEntry{
 		key:   key,
