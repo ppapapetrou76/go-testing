@@ -129,8 +129,16 @@ func shouldStartWith(actual types.Assertable, substr string) string {
 	return fmt.Sprintf("assertion failed: expected value of [%v] to start with [%+v], but it doesn't", actual.Value(), substr)
 }
 
+func shouldNotStartWith(actual types.Assertable, substr string) string {
+	return fmt.Sprintf("assertion failed: expected value of [%v] to not start with [%+v], but it does", actual.Value(), substr)
+}
+
 func shouldEndWith(actual types.Assertable, substr string) string {
 	return fmt.Sprintf("assertion failed: expected value of [%v] to end with [%+v], but it doesn't", actual.Value(), substr)
+}
+
+func shouldNotEndWith(actual types.Assertable, substr string) string {
+	return fmt.Sprintf("assertion failed: expected value of [%v] to not end with [%+v], but it does", actual.Value(), substr)
 }
 
 func shouldHaveSameSizeAs(actual types.Assertable, substr string) string {

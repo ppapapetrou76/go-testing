@@ -491,3 +491,61 @@ func TestAssertableString_ContainsOnlyDigits(t *testing.T) {
 		})
 	}
 }
+
+func TestAssertableString_DoesNotStartWith(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     string
+		substr     string
+		shouldFail bool
+	}{
+		{
+			name:       "should assert string that does not start with",
+			actual:     "My name is Bond",
+			substr:     "Je m'appelle Bond",
+			shouldFail: false,
+		},
+		{
+			name:       "should assert string that starts with",
+			actual:     "My name is Bond",
+			substr:     "My name",
+			shouldFail: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ThatString(test, tt.actual).DoesNotStartWith(tt.substr)
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
+func TestAssertableString_DoesNotEndWith(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     string
+		substr     string
+		shouldFail bool
+	}{
+		{
+			name:       "should assert string that ends with",
+			actual:     "My name is Bond",
+			substr:     "Bond",
+			shouldFail: true,
+		},
+		{
+			name:       "should assert string that does not end with",
+			actual:     "My name is Bond",
+			substr:     "My name",
+			shouldFail: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ThatString(test, tt.actual).DoesNotEndWith(tt.substr)
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}

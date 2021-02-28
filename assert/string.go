@@ -126,11 +126,29 @@ func (a AssertableString) StartsWith(substring string) AssertableString {
 	return a
 }
 
+// DoesNotStartWith asserts if the assertable string doesn't start with the given substring
+// It errors the test if it starts with the given substring.
+func (a AssertableString) DoesNotStartWith(substring string) AssertableString {
+	if a.actual.StartsWith(substring) {
+		a.t.Error(shouldNotStartWith(a.actual, substring))
+	}
+	return a
+}
+
 // EndsWith asserts if the assertable string ends with the given substring
 // It errors the test if it doesn't end with the given substring.
 func (a AssertableString) EndsWith(substring string) AssertableString {
 	if !a.actual.EndsWith(substring) {
 		a.t.Error(shouldEndWith(a.actual, substring))
+	}
+	return a
+}
+
+// DoesNotEndWith asserts if the assertable string doesn't end with the given substring
+// It errors the test if it end with the given substring.
+func (a AssertableString) DoesNotEndWith(substring string) AssertableString {
+	if a.actual.EndsWith(substring) {
+		a.t.Error(shouldNotEndWith(a.actual, substring))
 	}
 	return a
 }

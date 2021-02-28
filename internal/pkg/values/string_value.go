@@ -85,9 +85,19 @@ func (s StringValue) StartsWith(substr string) bool {
 	return strings.HasPrefix(s.DecoratedValue(), s.decoratedValue(substr))
 }
 
+// DoesNotStartWith returns true if the asserted value does not start with the given string, else false.
+func (s StringValue) DoesNotStartWith(substr string) bool {
+	return !s.StartsWith(substr)
+}
+
 // EndsWith returns true if the asserted value ends with the given string, else false.
 func (s StringValue) EndsWith(substr string) bool {
 	return strings.HasSuffix(s.DecoratedValue(), s.decoratedValue(substr))
+}
+
+// DoesNotEndWith returns true if the asserted value does not end with the given string, else false.
+func (s StringValue) DoesNotEndWith(substr string) bool {
+	return !s.EndsWith(substr)
 }
 
 // ContainsOnly returns true if the string contains only the given sub-string
