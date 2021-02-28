@@ -81,7 +81,7 @@ For the following types basic assertions are supported
     * [ ] DoesNotContainOnlyWhitespaces
     * [ ] DoesNotEndWith
     * [ ] DoesNotStartWith
-    * [ ] EndsWith
+    * [x] EndsWith
     * [ ] HasLineCount
     * [ ] HasSameSizeAs
     * [ ] HasSizeBetween
