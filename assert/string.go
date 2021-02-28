@@ -23,6 +23,13 @@ func IgnoringCase() StringOpt {
 	}
 }
 
+// IgnoringWhiteSpaces removes the whitespaces from the value under assertion.
+func IgnoringWhiteSpaces() StringOpt {
+	return func(c *AssertableString) {
+		c.actual = c.actual.AddDecorator(values.RemoveSpaces)
+	}
+}
+
 // ThatString returns an AssertableString structure initialized with the test reference and the actual value to assert.
 func ThatString(t *testing.T, actual string, opts ...StringOpt) AssertableString {
 	t.Helper()
@@ -31,7 +38,9 @@ func ThatString(t *testing.T, actual string, opts ...StringOpt) AssertableString
 		actual: values.NewStringValue(actual),
 	}
 	for _, opt := range opts {
-		opt(assertable)
+		if opt != nil {
+			opt(assertable)
+		}
 	}
 	return *assertable
 }
