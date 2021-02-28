@@ -26,6 +26,9 @@ func areEqualValues(actualValue, expectedValue reflect.Value) bool {
 		return NewStructValue(actualValue).IsEqualTo(expectedValue)
 	case reflect.Interface:
 		return NewAnyValue(actualValue.Interface()).IsEqualTo(expectedValue.Interface())
+	case reflect.Chan, reflect.Complex64, reflect.Complex128, reflect.Func, reflect.Invalid, reflect.Ptr, reflect.Uintptr, reflect.UnsafePointer:
+		// not supported yet
+		return true
 	default:
 		return true
 	}

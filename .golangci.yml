@@ -14,6 +14,8 @@ issues:
         - funlen
         - maligned
         - golint
+        - paralleltest
+        - testpackage
     - path: github/client
       linters:
         - gosec
@@ -32,6 +34,9 @@ linters:
     # should be enabled shortly
     - funlen
     - dupl
+    - nlreturn
+    - exhaustivestruct
+    - cyclop
 
 linters-settings:
   govet:
