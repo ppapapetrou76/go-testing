@@ -15,6 +15,7 @@ type StringValue struct {
 // StringDecorator is a function type to decorate a string.
 type StringDecorator func(value string) string
 
+// RemoveSpaces removes all spaces from the given string.
 func RemoveSpaces(value string) string {
 	return strings.ReplaceAll(value, " ", "")
 }
