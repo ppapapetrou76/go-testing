@@ -1,6 +1,7 @@
 package assert
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -561,6 +562,58 @@ func TestAssertableString_DoesNotEndWith(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			test := &testing.T{}
 			ThatString(test, tt.actual).DoesNotEndWith(tt.substr)
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
+func TestAssertableString_IsLowerCase(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     string
+		shouldFail bool
+	}{
+		{
+			name:       "should assert string that is not lower case",
+			actual:     "My name is Bond",
+			shouldFail: true,
+		},
+		{
+			name:       "should assert string that is lower case",
+			actual:     "my name is bond",
+			shouldFail: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ThatString(test, tt.actual).IsLowerCase()
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
+func TestAssertableString_IsUpperCase(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     string
+		shouldFail bool
+	}{
+		{
+			name:       "should assert string that is not upper case",
+			actual:     "My name is Bond",
+			shouldFail: true,
+		},
+		{
+			name:       "should assert string that is upper case",
+			actual:     strings.ToUpper("my name is bond"),
+			shouldFail: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ThatString(test, tt.actual).IsUpperCase()
 			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
 		})
 	}

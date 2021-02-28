@@ -160,3 +160,11 @@ func shouldBeLonger(actual types.Assertable, expected interface{}) string {
 func shouldContainOnlyDigits(actual types.Assertable) string {
 	return fmt.Sprintf("assertion failed: expected %+v to have only digits, but it's not", actual.Value())
 }
+
+func shouldBeLowerCase(actual types.Assertable) string {
+	return fmt.Sprintf("assertion failed: expected %+v to be lower case, but it's not", actual.Value())
+}
+
+func shouldBeUpperCase(actual types.Assertable) string {
+	return fmt.Sprintf("assertion failed: expected %+v to be upper case, but it's not", actual.Value())
+}

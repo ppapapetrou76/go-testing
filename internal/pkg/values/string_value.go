@@ -134,6 +134,16 @@ func (s StringValue) HasDigitsOnly() bool {
 	return true
 }
 
+// IsLowerCase returns true if the string is in lower case.
+func (s StringValue) IsLowerCase() bool {
+	return s.IsEqualTo(strings.ToLower(s.value))
+}
+
+// IsUpperCase returns true if the string is in upper case.
+func (s StringValue) IsUpperCase() bool {
+	return s.IsEqualTo(strings.ToUpper(s.value))
+}
+
 // NewStringValue creates and returns a StringValue struct initialed with the given value.
 func NewStringValue(value interface{}) StringValue {
 	switch v := value.(type) {
