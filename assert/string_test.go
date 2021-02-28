@@ -62,6 +62,7 @@ func TestAssertableString_IsEqualTo(t *testing.T) {
 		actual     string
 		expected   string
 		shouldFail bool
+		StringOpt
 	}{
 		{
 			name:       "should assert not equal strings",
@@ -75,11 +76,18 @@ func TestAssertableString_IsEqualTo(t *testing.T) {
 			expected:   "some-string",
 			shouldFail: false,
 		},
+		{
+			name:       "should assert equal strings ignoring white spaces",
+			actual:     "somestring with white spaces",
+			expected:   "some stringwith white spaces",
+			shouldFail: false,
+			StringOpt: IgnoringWhiteSpaces(),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			test := &testing.T{}
-			ThatString(test, tt.actual).IsEqualTo(tt.expected)
+			ThatString(test, tt.actual, tt.StringOpt).IsEqualTo(tt.expected)
 			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
 		})
 	}

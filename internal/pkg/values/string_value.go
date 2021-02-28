@@ -15,6 +15,10 @@ type StringValue struct {
 // StringDecorator is a function type to decorate a string.
 type StringDecorator func(value string) string
 
+func RemoveSpaces(value string) string {
+	return strings.ReplaceAll(value, " ", "")
+}
+
 // IsEqualTo returns true if the value is equal to the expected value, else false.
 func (s StringValue) IsEqualTo(expected interface{}) bool {
 	return s.DecoratedValue() == s.decoratedValue(expected)
