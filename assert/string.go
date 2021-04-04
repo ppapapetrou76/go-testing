@@ -135,6 +135,24 @@ func (a AssertableString) ContainsOnlyOnce(substring string) AssertableString {
 	return a
 }
 
+// ContainsWhitespaces asserts if the assertable string contains at least one whitespace
+// It errors the test if it does not contain any.
+func (a AssertableString) ContainsWhitespaces() AssertableString {
+	if !a.actual.ContainsWhitespaces() {
+		a.t.Error(shouldContainWhiteSpace(a.actual))
+	}
+	return a
+}
+
+// DoesNotContainAnyWhitespaces asserts if the assertable string contains no whitespace
+// It errors the test if it does contain any.
+func (a AssertableString) DoesNotContainAnyWhitespaces() AssertableString {
+	if a.actual.ContainsWhitespaces() {
+		a.t.Error(shouldNotContainAnyWhiteSpace(a.actual))
+	}
+	return a
+}
+
 // DoesNotContain asserts if the assertable string does not contain the given substring
 // It errors the test if it contains it.
 func (a AssertableString) DoesNotContain(substring string) AssertableString {
