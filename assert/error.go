@@ -168,3 +168,15 @@ func shouldBeLowerCase(actual types.Assertable) string {
 func shouldBeUpperCase(actual types.Assertable) string {
 	return fmt.Sprintf("assertion failed: expected %+v to be upper case, but it's not", actual.Value())
 }
+
+func shouldBeAlmostSame(actual types.Assertable, expected interface{}) string {
+	return fmt.Sprintf("assertion failed: expected value of = %+v, to be almost the same as %+v", actual.Value(), expected)
+}
+
+func shouldBeDefined(actual types.Assertable) string {
+	return fmt.Sprintf("assertion failed: expected value of = %+v, to be defined but it was not", actual.Value())
+}
+
+func shouldNotBeDefined(actual types.Assertable) string {
+	return fmt.Sprintf("assertion failed: expected value of = %+v, to be un-defined but it was", actual.Value())
+}

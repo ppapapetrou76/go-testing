@@ -15,6 +15,21 @@ func (t TimeValue) IsSameAs(expected interface{}) bool {
 	return t.value == expected
 }
 
+// IsAlmostSameAs returns true if the value is the almost the same as the expected value, else false.
+func (t TimeValue) IsAlmostSameAs(expected interface{}) bool {
+	return NewTimeValue(t.value.Add(time.Millisecond*100)).IsAfter(expected) && NewTimeValue(t.value.Add(-time.Millisecond*100)).IsBefore(expected)
+}
+
+// IsNotDefined returns true if the time value is not defined (has no value) else false
+func (t TimeValue) IsNotDefined() bool {
+	return t.value.Nanosecond() == 0
+}
+
+// IsDefined returns true if the time value is defined ( has some value ) else false
+func (t TimeValue) IsDefined() bool {
+	return !t.IsNotDefined()
+}
+
 // IsNotSameAs returns true if the value is not the same as the expected value, else false.
 func (t TimeValue) IsNotSameAs(expected interface{}) bool {
 	return t.value != expected
