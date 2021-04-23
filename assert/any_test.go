@@ -5,6 +5,10 @@ import (
 	"testing"
 )
 
+type foo struct{}
+
+var f *foo
+
 func TestAssertable_IsNil(t *testing.T) {
 	tests := []struct {
 		name       string
@@ -14,6 +18,16 @@ func TestAssertable_IsNil(t *testing.T) {
 		{
 			name:       "should assert nil",
 			actual:     nil,
+			shouldFail: false,
+		},
+		{
+			name:       "should assert not nil pointer",
+			actual:     new(interface{}),
+			shouldFail: true,
+		},
+		{
+			name:       "should assert nil pointer",
+			actual:     f,
 			shouldFail: false,
 		},
 		{
@@ -46,6 +60,16 @@ func TestAssertable_IsNotNil(t *testing.T) {
 			name:       "should assert non-empty string",
 			actual:     "non-nil",
 			shouldFail: false,
+		},
+		{
+			name:       "should assert not nil pointer",
+			actual:     new(interface{}),
+			shouldFail: false,
+		},
+		{
+			name:       "should assert nil pointer",
+			actual:     f,
+			shouldFail: true,
 		},
 	}
 	for _, tt := range tests {
