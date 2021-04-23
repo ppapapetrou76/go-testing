@@ -31,6 +31,15 @@ func (a AssertableTime) IsSameAs(expected time.Time) AssertableTime {
 	return a
 }
 
+// IsAlmostSameAs asserts if the expected time.Time is almost equal to the assertable time.Time value
+// It errors the tests if the compared values (actual VS expected) are not equal.
+func (a AssertableTime) IsAlmostSameAs(expected time.Time) AssertableTime {
+	if !a.actual.IsAlmostSameAs(expected) {
+		a.t.Error(shouldBeAlmostSame(a.actual, expected))
+	}
+	return a
+}
+
 // IsNotTheSameAs asserts if the expected time.Time is not equal to the assertable time.Time value
 // It errors the tests if the compared values (actual VS expected) are equal.
 func (a AssertableTime) IsNotTheSameAs(expected time.Time) AssertableTime {
@@ -54,6 +63,24 @@ func (a AssertableTime) IsBefore(expected time.Time) AssertableTime {
 func (a AssertableTime) IsAfter(expected time.Time) AssertableTime {
 	if !a.actual.IsAfter(expected) {
 		a.t.Error(shouldBeGreaterOrEqual(a.actual, expected))
+	}
+	return a
+}
+
+// IsDefined asserts if the expected time.Time is defined.
+// It errors the tests if the value is not defined.
+func (a AssertableTime) IsDefined() AssertableTime {
+	if a.actual.IsNotDefined() {
+		a.t.Error(shouldBeDefined(a.actual))
+	}
+	return a
+}
+
+// IsNotDefined asserts if the expected time.Time is not defined.
+// It errors the tests if the value is defined.
+func (a AssertableTime) IsNotDefined() AssertableTime {
+	if a.actual.IsDefined() {
+		a.t.Error(shouldNotBeDefined(a.actual))
 	}
 	return a
 }
