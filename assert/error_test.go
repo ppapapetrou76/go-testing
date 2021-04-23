@@ -1,90 +1,141 @@
 package assert
 
 import (
+	"errors"
 	"testing"
-
-	"github.com/ppapapetrou76/go-testing/internal/pkg/values"
-	"github.com/ppapapetrou76/go-testing/types"
 )
 
-func Test_shouldBeEqual(t *testing.T) {
-	type assertedStruct struct {
-		BoolField   bool
-		StringField string
-		IntField    int
-		SliceField  []string
-	}
-	type assertedStructUnexportedFields struct {
-		boolField bool
-	}
-
+func TestAssertableError_IsNil(t *testing.T) {
 	tests := []struct {
-		name            string
-		actual          types.Assertable
-		expected        interface{}
-		expectedMessage string
+		name       string
+		actual     error
+		shouldFail bool
 	}{
 		{
-			name:   "should return expected message when structs have unexported fields",
-			actual: values.NewStructValue(assertedStructUnexportedFields{}),
-			expected: assertedStructUnexportedFields{
-				boolField: true,
-			},
-			expectedMessage: "assertion failed:\n" +
-				"expected value\t:{boolField:true}\n" +
-				"actual value\t:{boolField:false}\n",
+			name:       "should assert nil error",
+			actual:     nil,
+			shouldFail: false,
 		},
 		{
-			name:     "should return expected message when slices are not equal",
-			actual:   values.NewSliceValue([]string{"elem1", "elem2", "elem3"}),
-			expected: []string{"elem1", "elem4"},
-			expectedMessage: "assertion failed:\n" +
-				"expected value\t:[elem1 elem4]\n" +
-				"actual value\t:[elem1 elem2 elem3]\n" +
-				"actual value of elem2 is different in 1 from elem4\n" +
-				"actual value of elem3 is not expected in 2\n",
-		},
-		{
-			name:     "should return expected message when maps are not equal",
-			actual:   values.NewKeyStringMap(map[string]int{"1": 2, "2": 2}),
-			expected: map[string]int{"1": 1},
-			expectedMessage: "assertion failed:\n" +
-				"expected value\t:map[1:1]\n" +
-				"actual value\t:map[1:2 2:2]\n" +
-				"actual value of 2 is different in 1 from 1\n" +
-				"actual value of 2 is not expected in 2\n",
-		},
-		{
-			name:            "should return expected message when simple types are not equal",
-			actual:          values.NewStringValue("i'm a simple type"),
-			expected:        "i'm a simple type but not equal",
-			expectedMessage: "assertion failed:\nexpected value\t:i'm a simple type but not equal\nactual value\t:i'm a simple type\n",
-		},
-		{
-			name: "should return expected message when structs are not equal",
-			actual: values.NewStructValue(assertedStruct{
-				SliceField: []string{"elem3"},
-			}),
-			expected: assertedStruct{
-				BoolField:   true,
-				StringField: "some-value",
-				IntField:    100,
-				SliceField:  []string{"elem1", "elem2"},
-			},
-			expectedMessage: "assertion failed:\nexpected value\t:" +
-				"{BoolField:true StringField:some-value IntField:100 SliceField:[elem1 elem2]}\n" +
-				"actual value\t:{BoolField:false StringField: IntField:0 SliceField:[elem3]}\n" +
-				"actual value of false is different in BoolField from true\n" +
-				"actual value of  is different in StringField from some-value\n" +
-				"actual value of 0 is different in IntField from 100\n" +
-				"actual value of elem3 is different in SliceField:0 from elem1\n" +
-				"actual value of <nil> is expected but missing from SliceField:1\n",
+			name:       "should assert not nil error",
+			actual:     errors.New("some error"),
+			shouldFail: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			actualMessage := shouldBeEqual(tt.actual, tt.expected)
-			That(t, actualMessage).IsEqualTo(tt.expectedMessage)
+			test := &testing.T{}
+			ThatError(test, tt.actual).IsNil()
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
+func TestAssertableError_IsNotNil(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     error
+		shouldFail bool
+	}{
+		{
+			name:       "should assert nil error",
+			actual:     nil,
+			shouldFail: true,
+		},
+		{
+			name:       "should assert not nil error",
+			actual:     errors.New("some error"),
+			shouldFail: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ThatError(test, tt.actual).IsNotNil()
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
+func TestAssertableError_HasExactMessage(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     error
+		message    string
+		shouldFail bool
+	}{
+		{
+			name:       "should assert nil error",
+			actual:     nil,
+			shouldFail: true,
+		},
+		{
+			name:       "should assert not nil error with exact message",
+			actual:     errors.New("some error"),
+			message:    "some error",
+			shouldFail: false,
+		},
+		{
+			name:       "should assert not nil error with different message",
+			actual:     errors.New("completely different message"),
+			message:    "some error",
+			shouldFail: true,
+		},
+		{
+			name:       "should assert not nil error that contains the message but not only that",
+			actual:     errors.New("some error with additional information"),
+			message:    "some error",
+			shouldFail: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ThatError(test, tt.actual).HasExactMessage(tt.message)
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
+func TestAssertableError_IsSameAs(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     error
+		expected   error
+		shouldFail bool
+	}{
+		{
+			name:       "should assert both nil errors",
+			shouldFail: false,
+		},
+		{
+			name:       "should assert when actual error is nil and expected is not",
+			expected:   errors.New("some error"),
+			shouldFail: true,
+		},
+		{
+			name:       "should assert when actual error is not nil and expected is nil",
+			actual:     errors.New("some error"),
+			shouldFail: true,
+		},
+		{
+			name:       "should assert when both errors are not nil and have the same message",
+			actual:     errors.New("some error"),
+			expected:   errors.New("some error"),
+			shouldFail: false,
+		},
+		{
+			name:       "should assert when both errors are not nil and have different message",
+			actual:     errors.New("some error"),
+			expected:   errors.New("some other error"),
+			shouldFail: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ThatError(test, tt.actual).IsSameAs(tt.expected)
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
 		})
 	}
 }
