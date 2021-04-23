@@ -16,6 +16,7 @@ issues:
         - golint
         - paralleltest
         - testpackage
+        - goerr113
     - path: github/client
       linters:
         - gosec
