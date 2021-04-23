@@ -67,7 +67,16 @@ func (s AnyValue) IsLessOrEqualTo(expected interface{}) bool {
 
 // IsNil returns true if the value is nil, else false.
 func (s AnyValue) IsNil() bool {
-	return s.value == nil
+	if s.value == nil {
+		return true
+	}
+	// nolint:exhaustive //covered by default case
+	switch reflect.TypeOf(s.value).Kind() {
+	case reflect.Ptr, reflect.Map, reflect.Array, reflect.Chan, reflect.Slice:
+		return reflect.ValueOf(s.value).IsNil()
+	default:
+		return false
+	}
 }
 
 // IsNotNil returns true if the value is not nil, else false.
