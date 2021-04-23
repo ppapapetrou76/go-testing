@@ -93,6 +93,14 @@ func shouldContainOnlyOnce(actual types.Assertable, elements interface{}) string
 	return fmt.Sprintf("assertion failed: containable [%v] should contain [%+v] only once, but it doesn't", actual.Value(), elements)
 }
 
+func shouldContainWhiteSpace(actual types.Assertable) string {
+	return fmt.Sprintf("assertion failed: containable [%v] should contain whitespace(s), but it doesn't", actual.Value())
+}
+
+func shouldNotContainAnyWhiteSpace(actual types.Assertable) string {
+	return fmt.Sprintf("assertion failed: containable [%v] should not contain any whitespace, but it does", actual.Value())
+}
+
 func shouldNotContain(actual types.Assertable, elements interface{}) string {
 	return fmt.Sprintf("assertion failed: containable [%v] should not contain [%+v], but it does", actual.Value(), elements)
 }

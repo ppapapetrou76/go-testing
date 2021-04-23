@@ -301,6 +301,100 @@ func TestAssertableString_ContainsOnlyOnce(t *testing.T) {
 	}
 }
 
+func TestAssertableString_ContainsWhitespaces(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     string
+		shouldFail bool
+	}{
+		{
+			name:       "should succeed if it contains more than one whitespace",
+			actual:     "I'm a happy person!",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if contains one whitespace",
+			actual:     "I'm happy!",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if contains one whitespace at the end of the string",
+			actual:     "Happy! ",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if contains one whitespace at the beginning of the string",
+			actual:     " Happy!",
+			shouldFail: false,
+		},
+		{
+			name:       "should fail if it contains no whitespace",
+			actual:     "Happy!",
+			shouldFail: true,
+		},
+		{
+			name:       "should fail if it contains no whitespace and special characters",
+			actual:     "Happy!@#%^&*(){}",
+			shouldFail: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ft := NewFluentT(test)
+			ft.AssertThatString(tt.actual).ContainsWhitespaces()
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
+func TestAssertableString_DoesNotContainAnyWhitespaces(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     string
+		shouldFail bool
+	}{
+		{
+			name:       "should succeed if it contains no whitespace",
+			actual:     "Happy!",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if it contains no whitespace and special characters",
+			actual:     "Happy!@#%^&*(){}",
+			shouldFail: false,
+		},
+		{
+			name:       "should fail if it contains more than one whitespace",
+			actual:     "I'm a happy person!",
+			shouldFail: true,
+		},
+		{
+			name:       "should fail if contains one whitespace",
+			actual:     "I'm happy!",
+			shouldFail: true,
+		},
+		{
+			name:       "should fail if contains one whitespace at the end of the string",
+			actual:     "Happy! ",
+			shouldFail: true,
+		},
+		{
+			name:       "should fail if contains one whitespace at the beginning of the string",
+			actual:     " Happy!",
+			shouldFail: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ft := NewFluentT(test)
+			ft.AssertThatString(tt.actual).DoesNotContainAnyWhitespaces()
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
 func TestAssertableString_DoesNotContain(t *testing.T) {
 	tests := []struct {
 		name       string
