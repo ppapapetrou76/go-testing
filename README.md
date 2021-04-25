@@ -75,10 +75,10 @@ For the following types basic assertions are supported
   * time.Duration (basic assertions)
   * time.Time (basic assertions)
   * moar string assertions
-    * [ ] ContainsOnlyWhitespaces
+    * [x] ContainsOnlyWhitespaces
     * [x] ContainsWhitespaces
     * [x] DoesNotContainAnyWhitespaces
-    * [ ] DoesNotContainOnlyWhitespaces
+    * [x] DoesNotContainOnlyWhitespaces
     * [x] DoesNotEndWith
     * [x] DoesNotStartWith
     * [x] EndsWith

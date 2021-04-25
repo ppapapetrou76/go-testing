@@ -121,6 +121,11 @@ func (s StringValue) ContainsWhitespaces() bool {
 	return strings.Count(s.DecoratedValue(), " ") > 0
 }
 
+// ContainsOnlyWhitespaces returns true if the string contains only whitespaces.
+func (s StringValue) ContainsOnlyWhitespaces() bool {
+	return strings.Count(s.DecoratedValue(), " ") == len(s.DecoratedValue())
+}
+
 func (s StringValue) greaterThan(expected StringValue) bool {
 	return s.DecoratedValue() > expected.value
 }
