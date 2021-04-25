@@ -153,6 +153,24 @@ func (a AssertableString) DoesNotContainAnyWhitespaces() AssertableString {
 	return a
 }
 
+// ContainsOnlyWhitespaces asserts if the assertable string contains only whitespaces
+// It errors the test if it contains any other character.
+func (a AssertableString) ContainsOnlyWhitespaces() AssertableString {
+	if !a.actual.ContainsOnlyWhitespaces() {
+		a.t.Error(shouldContainOnlyWhiteSpaces(a.actual))
+	}
+	return a
+}
+
+// DoesNotContainOnlyWhitespaces asserts if the assertable string does not contain only whitespaces
+// It errors the test if it contains only whitespaces.
+func (a AssertableString) DoesNotContainOnlyWhitespaces() AssertableString {
+	if a.actual.ContainsOnlyWhitespaces() {
+		a.t.Error(shouldNotContainOnlyWhiteSpaces(a.actual))
+	}
+	return a
+}
+
 // DoesNotContain asserts if the assertable string does not contain the given substring
 // It errors the test if it contains it.
 func (a AssertableString) DoesNotContain(substring string) AssertableString {
