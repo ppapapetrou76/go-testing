@@ -171,7 +171,10 @@ func (s StringValue) AddDecorator(decorator StringDecorator) StringValue {
 }
 
 func (s StringValue) decoratedValue(value interface{}) string {
-	decoratedValue := value.(string)
+	decoratedValue, ok := value.(string)
+	if !ok {
+		return ""
+	}
 	for _, decorator := range s.decorators {
 		decoratedValue = decorator(decoratedValue)
 	}
