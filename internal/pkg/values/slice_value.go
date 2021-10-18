@@ -83,6 +83,23 @@ func (s SliceValue) ContainsOnly(elements interface{}) bool {
 	return s.Contains(elements) && s.HasSize(reflect.ValueOf(elements).Len())
 }
 
+// HasUniqueElements returns true if the slice contains only unique elements else false.
+func (s SliceValue) HasUniqueElements() bool {
+	if !IsSlice(s.Value()) {
+		return false
+	}
+	sliceValue := reflect.ValueOf(s.value)
+	elements := map[interface{}]bool{}
+
+	for i := 0; i < sliceValue.Len(); i++ {
+		if _, ok := elements[sliceValue.Index(i).Interface()]; ok {
+			return false
+		}
+		elements[sliceValue.Index(i).Interface()] = true
+	}
+	return true
+}
+
 // Value returns the actual value of the structure.
 func (s SliceValue) Value() interface{} {
 	return s.value

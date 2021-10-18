@@ -106,3 +106,12 @@ func (a AssertableSlice) DoesNotContain(elements interface{}) AssertableSlice {
 	}
 	return a
 }
+
+// HasUniqueElements asserts if the assertable string slice does not contain the given element
+// It errors the test if it contains it/them.
+func (a AssertableSlice) HasUniqueElements() AssertableSlice {
+	if !(a.actual.HasUniqueElements()) {
+		a.t.Error(shouldContainUniqueElements(a.actual))
+	}
+	return a
+}

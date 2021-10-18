@@ -34,6 +34,7 @@ type Containable interface {
 	Contains(elements interface{}) bool
 	ContainsOnly(elements interface{}) bool
 	DoesNotContain(elements interface{}) bool
+	HasUniqueElements() bool
 	Sizeable
 }
 
