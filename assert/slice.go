@@ -123,3 +123,25 @@ func (a AssertableSlice) HasUniqueElements() AssertableSlice {
 	}
 	return a
 }
+
+// IsSortedAscending asserts if the assertable slice is sorted on ascending order.
+// It supports the following slices : []string, []int, []int32, []int64, []float64 and any slice that implements
+// sort.Interface
+// If a non-supported type is given then the assertion will fail.
+func (a AssertableSlice) IsSortedAscending() AssertableSlice {
+	if !(a.actual.IsSorted(false)) {
+		a.t.Error(shouldBeSorted(a.actual, "ascending"))
+	}
+	return a
+}
+
+// IsSortedDescending asserts if the assertable slice is sorted on descending order.
+// It supports the following slices : []string, []int, []int32, []int64, []float64 and any slice that implements
+// sort.Interface
+// If a non-supported type is given then the assertion will fail.
+func (a AssertableSlice) IsSortedDescending() AssertableSlice {
+	if !(a.actual.IsSorted(true)) {
+		a.t.Error(shouldBeSorted(a.actual, "descending"))
+	}
+	return a
+}
