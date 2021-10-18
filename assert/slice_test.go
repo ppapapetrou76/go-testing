@@ -329,3 +329,34 @@ func TestAssertableSlice_DoesNotContain(t *testing.T) {
 		})
 	}
 }
+
+func TestAssertableSlice_HasUniqueElements(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     []string
+		shouldFail bool
+	}{
+		{
+			name:       "should not fail if slice has unique elements",
+			actual:     []string{"element", "element2", "element3"},
+			shouldFail: false,
+		},
+		{
+			name:       "should fail if slice has unique elements",
+			actual:     []string{"element", "element", "element3"},
+			shouldFail: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ThatSlice(test, tt.actual).HasUniqueElements()
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+	test := &testing.T{}
+	ThatSlice(test, []int{1, 2, 3}).HasUniqueElements()
+	ThatBool(t, test.Failed()).IsEqualTo(false)
+	ThatSlice(test, []int{1, 1, 3}).HasUniqueElements()
+	ThatBool(t, test.Failed()).IsEqualTo(true)
+}
