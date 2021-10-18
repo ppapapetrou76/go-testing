@@ -219,8 +219,17 @@ func (a AssertableString) DoesNotEndWith(substring string) AssertableString {
 // HasSameSizeAs asserts if the assertable string has the same size with the given string
 // It errors the test if they don't have the same size.
 func (a AssertableString) HasSameSizeAs(substring string) AssertableString {
-	if !(a.actual.Size() == len(substring)) {
+	if !(a.actual.HasSize(len(substring))) {
 		a.t.Error(shouldHaveSameSizeAs(a.actual, substring))
+	}
+	return a
+}
+
+// HasSizeLessThan asserts if the assertable string's length is less than the size of the given string
+// It errors the test if they don't have the same size.
+func (a AssertableString) HasSizeLessThan(substring string) AssertableString {
+	if !(a.actual.HasSizeLessThan(len(substring))) {
+		a.t.Error(shouldHaveLessSizeThan(a.actual, substring))
 	}
 	return a
 }
