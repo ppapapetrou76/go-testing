@@ -39,7 +39,7 @@ deps:
 	@ echo "-> Installing project dependencies..."
 	@ GO111MODULE=off go get -u github.com/myitcv/gobin
 	@ $(GOBIN)/gobin golang.org/x/lint/golint
-	@ curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(GOBIN) v1.37.0
+	@ curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(GOBIN) v1.42.1
 	@ echo "-> Done."
 
 ## Formats code and fixes as many as possible linter errors
