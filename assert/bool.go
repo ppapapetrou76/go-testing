@@ -24,6 +24,7 @@ func ThatBool(t *testing.T, actual bool) AssertableBool {
 // IsEqualTo asserts if the expected bool is equal to the assertable bool value
 // It errors the tests if the compared values (actual VS expected) are not equal.
 func (a AssertableBool) IsEqualTo(expected interface{}) AssertableBool {
+	a.t.Helper()
 	if !a.actual.IsEqualTo(expected) {
 		a.t.Error(shouldBeEqual(a.actual, expected))
 	}

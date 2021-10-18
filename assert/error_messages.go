@@ -200,3 +200,7 @@ func shouldBeDefined(actual types.Assertable) string {
 func shouldNotBeDefined(actual types.Assertable) string {
 	return fmt.Sprintf("assertion failed: expected value of = %+v, to be un-defined but it was", actual.Value())
 }
+
+func shouldContainUniqueElements(actual types.Assertable) string {
+	return fmt.Sprintf("assertion failed: expected value of = %+v, to contain unique elements but it doesn't", actual.Value())
+}
