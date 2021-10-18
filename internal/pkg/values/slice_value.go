@@ -2,6 +2,7 @@ package values
 
 import (
 	"reflect"
+	"sort"
 )
 
 // SliceValue is a struct that holds a string slice value.
@@ -98,6 +99,72 @@ func (s SliceValue) HasUniqueElements() bool {
 		elements[sliceValue.Index(i).Interface()] = true
 	}
 	return true
+}
+
+// IsSorted returns true if the slice is sorted else false.
+func (s SliceValue) IsSorted(desc bool) bool {
+	if !IsSlice(s.Value()) {
+		return false
+	}
+	sliceValue := reflect.ValueOf(s.value)
+	if sliceValue.Len() <= 1 {
+		return true
+	}
+	switch sliceType := s.value.(type) {
+	case []int:
+		if desc {
+			sliceType = reverseInts(sliceType)
+		}
+		return sort.IntsAreSorted(sliceType)
+	case []int32, []int64:
+		sliceLen := sliceValue.Len()
+		intSlice := make([]int, 0, sliceLen)
+		for i := 0; i < sliceLen; i++ {
+			intSlice = append(intSlice, int(sliceValue.Index(i).Int()))
+		}
+		if desc {
+			intSlice = reverseInts(intSlice)
+		}
+		return sort.IntsAreSorted(intSlice)
+	case []float64:
+		if desc {
+			sliceType = reverseFloats(sliceType)
+		}
+		return sort.Float64sAreSorted(sliceType)
+	case []string:
+		if desc {
+			sliceType = reverseStrings(sliceType)
+		}
+		return sort.StringsAreSorted(sliceType)
+	case sort.Interface:
+		if desc {
+			sliceType = sort.Reverse(sliceType)
+		}
+		return sort.IsSorted(sliceType)
+	}
+
+	return false
+}
+
+func reverseInts(ints []int) []int {
+	for i, j := 0, len(ints)-1; i < j; i, j = i+1, j-1 {
+		ints[i], ints[j] = ints[j], ints[i]
+	}
+	return ints
+}
+
+func reverseFloats(floats []float64) []float64 {
+	for i, j := 0, len(floats)-1; i < j; i, j = i+1, j-1 {
+		floats[i], floats[j] = floats[j], floats[i]
+	}
+	return floats
+}
+
+func reverseStrings(strings []string) []string {
+	for i, j := 0, len(strings)-1; i < j; i, j = i+1, j-1 {
+		strings[i], strings[j] = strings[j], strings[i]
+	}
+	return strings
 }
 
 // Value returns the actual value of the structure.
