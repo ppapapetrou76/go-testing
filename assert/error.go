@@ -23,6 +23,7 @@ func ThatError(t *testing.T, actual error) AssertableError {
 
 // IsNil asserts if the expected error is nil.
 func (a AssertableError) IsNil() AssertableError {
+	a.t.Helper()
 	errAnyValue := values.NewAnyValue(a.actual.Value())
 	if errAnyValue.IsNotNil() {
 		a.t.Error(shouldBeNil(errAnyValue))
@@ -32,6 +33,7 @@ func (a AssertableError) IsNil() AssertableError {
 
 // IsNotNil asserts if the expected error is nil.
 func (a AssertableError) IsNotNil() AssertableError {
+	a.t.Helper()
 	errAnyValue := values.NewAnyValue(a.actual.Value())
 	if errAnyValue.IsNil() {
 		a.t.Error(shouldNotBeNil(errAnyValue))
@@ -41,6 +43,7 @@ func (a AssertableError) IsNotNil() AssertableError {
 
 // HasExactMessage asserts if the expected error contains exactly the given message.
 func (a AssertableError) HasExactMessage(expectedMessage string) AssertableError {
+	a.t.Helper()
 	errAnyValue := values.NewAnyValue(a.actual.Value())
 	if errAnyValue.IsNil() {
 		a.t.Error(shouldContain(errAnyValue, expectedMessage))
@@ -56,6 +59,7 @@ func (a AssertableError) HasExactMessage(expectedMessage string) AssertableError
 
 // IsSameAs asserts if the expected error is the same with the given error.
 func (a AssertableError) IsSameAs(err error) AssertableError {
+	a.t.Helper()
 	actualAnyValue := values.NewAnyValue(a.actual.Value())
 	expectedAnyValue := values.NewAnyValue(err)
 

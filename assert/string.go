@@ -48,6 +48,7 @@ func ThatString(t *testing.T, actual string, opts ...StringOpt) AssertableString
 // IsEqualTo asserts if the expected string is equal to the assertable string value
 // It errors the tests if the compared values (actual VS expected) are not equal.
 func (a AssertableString) IsEqualTo(expected interface{}) AssertableString {
+	a.t.Helper()
 	if !a.actual.IsEqualTo(expected) {
 		a.t.Error(shouldBeEqual(a.actual, expected))
 	}
@@ -57,6 +58,7 @@ func (a AssertableString) IsEqualTo(expected interface{}) AssertableString {
 // IsNotEqualTo asserts if the expected string is not equal to the assertable string value
 // It errors the tests if the compared values (actual VS expected) are equal.
 func (a AssertableString) IsNotEqualTo(expected interface{}) AssertableString {
+	a.t.Helper()
 	if a.actual.IsEqualTo(expected) {
 		a.t.Error(shouldNotBeEqual(a.actual, expected))
 	}
@@ -66,6 +68,7 @@ func (a AssertableString) IsNotEqualTo(expected interface{}) AssertableString {
 // IsEmpty asserts if the expected string is empty
 // It errors the tests if the string is not empty.
 func (a AssertableString) IsEmpty() AssertableString {
+	a.t.Helper()
 	if a.actual.IsNotEmpty() {
 		a.t.Error(shouldBeEmpty(a.actual))
 	}
@@ -75,6 +78,7 @@ func (a AssertableString) IsEmpty() AssertableString {
 // IsLowerCase asserts if the expected string is lower case
 // It errors the tests if the string is not lower case.
 func (a AssertableString) IsLowerCase() AssertableString {
+	a.t.Helper()
 	if !a.actual.IsLowerCase() {
 		a.t.Error(shouldBeLowerCase(a.actual))
 	}
@@ -84,6 +88,7 @@ func (a AssertableString) IsLowerCase() AssertableString {
 // IsUpperCase asserts if the expected string is upper case
 // It errors the tests if the string is not upper case.
 func (a AssertableString) IsUpperCase() AssertableString {
+	a.t.Helper()
 	if !a.actual.IsUpperCase() {
 		a.t.Error(shouldBeUpperCase(a.actual))
 	}
@@ -93,6 +98,7 @@ func (a AssertableString) IsUpperCase() AssertableString {
 // IsNotEmpty asserts if the expected string is not empty
 // It errors the tests if the string is empty.
 func (a AssertableString) IsNotEmpty() AssertableString {
+	a.t.Helper()
 	if a.actual.IsEmpty() {
 		a.t.Error(shouldNotBeEmpty(a.actual))
 	}
@@ -102,6 +108,7 @@ func (a AssertableString) IsNotEmpty() AssertableString {
 // Contains asserts if the assertable string contains the given element(s)
 // It errors the test if it does not contain it.
 func (a AssertableString) Contains(substring string) AssertableString {
+	a.t.Helper()
 	if a.actual.DoesNotContain(substring) {
 		a.t.Error(shouldContain(a.actual, substring))
 	}
@@ -111,6 +118,7 @@ func (a AssertableString) Contains(substring string) AssertableString {
 // ContainsIgnoringCase asserts if the assertable string contains the given element(s) case insensitively
 // It errors the test if it does not contain it.
 func (a AssertableString) ContainsIgnoringCase(substring string) AssertableString {
+	a.t.Helper()
 	if !a.actual.ContainsIgnoringCase(substring) {
 		a.t.Error(shouldContainIgnoringCase(a.actual, substring))
 	}
@@ -120,6 +128,7 @@ func (a AssertableString) ContainsIgnoringCase(substring string) AssertableStrin
 // ContainsOnly asserts if the assertable string only contains the given substring
 // It errors the test if it does not contain it.
 func (a AssertableString) ContainsOnly(substring string) AssertableString {
+	a.t.Helper()
 	if !a.actual.ContainsOnly(substring) {
 		a.t.Error(shouldContainOnly(a.actual, substring))
 	}
@@ -129,6 +138,7 @@ func (a AssertableString) ContainsOnly(substring string) AssertableString {
 // ContainsOnlyOnce asserts if the assertable string contains the given substring only once
 // It errors the test if it does not contain it or contains more than once.
 func (a AssertableString) ContainsOnlyOnce(substring string) AssertableString {
+	a.t.Helper()
 	if !a.actual.ContainsOnlyOnce(substring) {
 		a.t.Error(shouldContainOnlyOnce(a.actual, substring))
 	}
@@ -138,6 +148,7 @@ func (a AssertableString) ContainsOnlyOnce(substring string) AssertableString {
 // ContainsWhitespaces asserts if the assertable string contains at least one whitespace
 // It errors the test if it does not contain any.
 func (a AssertableString) ContainsWhitespaces() AssertableString {
+	a.t.Helper()
 	if !a.actual.ContainsWhitespaces() {
 		a.t.Error(shouldContainWhiteSpace(a.actual))
 	}
@@ -147,6 +158,7 @@ func (a AssertableString) ContainsWhitespaces() AssertableString {
 // DoesNotContainAnyWhitespaces asserts if the assertable string contains no whitespace
 // It errors the test if it does contain any.
 func (a AssertableString) DoesNotContainAnyWhitespaces() AssertableString {
+	a.t.Helper()
 	if a.actual.ContainsWhitespaces() {
 		a.t.Error(shouldNotContainAnyWhiteSpace(a.actual))
 	}
@@ -156,6 +168,7 @@ func (a AssertableString) DoesNotContainAnyWhitespaces() AssertableString {
 // ContainsOnlyWhitespaces asserts if the assertable string contains only whitespaces
 // It errors the test if it contains any other character.
 func (a AssertableString) ContainsOnlyWhitespaces() AssertableString {
+	a.t.Helper()
 	if !a.actual.ContainsOnlyWhitespaces() {
 		a.t.Error(shouldContainOnlyWhiteSpaces(a.actual))
 	}
@@ -165,6 +178,7 @@ func (a AssertableString) ContainsOnlyWhitespaces() AssertableString {
 // DoesNotContainOnlyWhitespaces asserts if the assertable string does not contain only whitespaces
 // It errors the test if it contains only whitespaces.
 func (a AssertableString) DoesNotContainOnlyWhitespaces() AssertableString {
+	a.t.Helper()
 	if a.actual.ContainsOnlyWhitespaces() {
 		a.t.Error(shouldNotContainOnlyWhiteSpaces(a.actual))
 	}
@@ -174,6 +188,7 @@ func (a AssertableString) DoesNotContainOnlyWhitespaces() AssertableString {
 // DoesNotContain asserts if the assertable string does not contain the given substring
 // It errors the test if it contains it.
 func (a AssertableString) DoesNotContain(substring string) AssertableString {
+	a.t.Helper()
 	if a.actual.Contains(substring) {
 		a.t.Error(shouldNotContain(a.actual, substring))
 	}
@@ -183,6 +198,7 @@ func (a AssertableString) DoesNotContain(substring string) AssertableString {
 // StartsWith asserts if the assertable string starts with the given substring
 // It errors the test if it doesn't start with the given substring.
 func (a AssertableString) StartsWith(substring string) AssertableString {
+	a.t.Helper()
 	if !a.actual.StartsWith(substring) {
 		a.t.Error(shouldStartWith(a.actual, substring))
 	}
@@ -192,6 +208,7 @@ func (a AssertableString) StartsWith(substring string) AssertableString {
 // DoesNotStartWith asserts if the assertable string doesn't start with the given substring
 // It errors the test if it starts with the given substring.
 func (a AssertableString) DoesNotStartWith(substring string) AssertableString {
+	a.t.Helper()
 	if a.actual.StartsWith(substring) {
 		a.t.Error(shouldNotStartWith(a.actual, substring))
 	}
@@ -201,6 +218,7 @@ func (a AssertableString) DoesNotStartWith(substring string) AssertableString {
 // EndsWith asserts if the assertable string ends with the given substring
 // It errors the test if it doesn't end with the given substring.
 func (a AssertableString) EndsWith(substring string) AssertableString {
+	a.t.Helper()
 	if !a.actual.EndsWith(substring) {
 		a.t.Error(shouldEndWith(a.actual, substring))
 	}
@@ -210,6 +228,7 @@ func (a AssertableString) EndsWith(substring string) AssertableString {
 // DoesNotEndWith asserts if the assertable string doesn't end with the given substring
 // It errors the test if it end with the given substring.
 func (a AssertableString) DoesNotEndWith(substring string) AssertableString {
+	a.t.Helper()
 	if a.actual.EndsWith(substring) {
 		a.t.Error(shouldNotEndWith(a.actual, substring))
 	}
@@ -219,6 +238,7 @@ func (a AssertableString) DoesNotEndWith(substring string) AssertableString {
 // HasSameSizeAs asserts if the assertable string has the same size with the given string
 // It errors the test if they don't have the same size.
 func (a AssertableString) HasSameSizeAs(substring string) AssertableString {
+	a.t.Helper()
 	if !(a.actual.HasSize(len(substring))) {
 		a.t.Error(shouldHaveSameSizeAs(a.actual, substring))
 	}
@@ -228,6 +248,7 @@ func (a AssertableString) HasSameSizeAs(substring string) AssertableString {
 // HasSizeLessThan asserts if the assertable string's length is less than the size of the given string
 // It errors the test if they don't have the same size.
 func (a AssertableString) HasSizeLessThan(substring string) AssertableString {
+	a.t.Helper()
 	if !(a.actual.HasSizeLessThan(len(substring))) {
 		a.t.Error(shouldHaveLessSizeThan(a.actual, substring))
 	}
@@ -237,6 +258,7 @@ func (a AssertableString) HasSizeLessThan(substring string) AssertableString {
 // ContainsOnlyDigits asserts if the expected string contains only digits
 // It errors the tests if the string has other characters than digits.
 func (a AssertableString) ContainsOnlyDigits() AssertableString {
+	a.t.Helper()
 	if !(a.actual.HasDigitsOnly()) {
 		a.t.Error(shouldContainOnlyDigits(a.actual))
 	}

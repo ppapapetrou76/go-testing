@@ -25,6 +25,7 @@ func ThatDuration(t *testing.T, actual time.Duration) AssertableDuration {
 // IsEqualTo asserts if the expected time.Duration is equal to the assertable time.Duration value
 // It errors the tests if the compared values (actual VS expected) are not equal.
 func (a AssertableDuration) IsEqualTo(expected time.Duration) AssertableDuration {
+	a.t.Helper()
 	if a.actual.IsNotEqualTo(expected) {
 		a.t.Error(shouldBeEqual(a.actual, expected))
 	}
@@ -34,6 +35,7 @@ func (a AssertableDuration) IsEqualTo(expected time.Duration) AssertableDuration
 // IsNotEqualTo asserts if the expected time.Duration is not equal to the assertable time.Duration value
 // It errors the tests if the compared values (actual VS expected) are equal.
 func (a AssertableDuration) IsNotEqualTo(expected time.Duration) AssertableDuration {
+	a.t.Helper()
 	if a.actual.IsEqualTo(expected) {
 		a.t.Error(shouldNotBeEqual(a.actual, expected))
 	}
@@ -43,6 +45,7 @@ func (a AssertableDuration) IsNotEqualTo(expected time.Duration) AssertableDurat
 // IsShorterThan asserts if the assertable time.Duration value is shorter than the expected value
 // It errors the tests if is not shorter.
 func (a AssertableDuration) IsShorterThan(expected time.Duration) AssertableDuration {
+	a.t.Helper()
 	if !a.actual.IsShorterThan(expected) {
 		a.t.Error(shouldBeShorter(a.actual, expected))
 	}
@@ -52,6 +55,7 @@ func (a AssertableDuration) IsShorterThan(expected time.Duration) AssertableDura
 // IsLongerThan asserts if the assertable time.v value is longer than the expected value
 // It errors the tests if is not longer.
 func (a AssertableDuration) IsLongerThan(expected time.Duration) AssertableDuration {
+	a.t.Helper()
 	if !a.actual.IsLongerThan(expected) {
 		a.t.Error(shouldBeLonger(a.actual, expected))
 	}
