@@ -450,6 +450,11 @@ func TestAssertableSlice_IsSorted(t *testing.T) {
 		ThatSlice(test, []int32{10, 5, 2}).IsSortedDescending()
 		ThatBool(t, test.Failed()).IsFalse()
 	})
+	t.Run("should fail if int32 slice is not sorted desc", func(t *testing.T) {
+		test := &testing.T{}
+		ThatSlice(test, []int32{1, 5, 2}).IsSortedDescending()
+		ThatBool(t, test.Failed()).IsTrue()
+	})
 	t.Run("should fail if int32 slice is not sorted", func(t *testing.T) {
 		test := &testing.T{}
 		ThatSlice(test, []int32{10, 5, 2}).IsSortedAscending()
