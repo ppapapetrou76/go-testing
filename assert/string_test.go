@@ -645,6 +645,42 @@ func TestAssertableString_HasSameSizeAs(t *testing.T) {
 	}
 }
 
+func TestAssertableString_HasSizeLessThan(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     string
+		substring  string
+		shouldFail bool
+	}{
+		{
+			name:       "should fail if it has the same size",
+			actual:     "I'm a happy man",
+			substring:  "I'm a happy orc",
+			shouldFail: true,
+		},
+		{
+			name:       "should fail if it has bigger size",
+			actual:     "I'm a happy big man",
+			substring:  "I'm a happy orc",
+			shouldFail: true,
+		},
+		{
+			name:       "should succeed if it has less size",
+			actual:     "I'm a happy man",
+			substring:  "I'm a happy woman",
+			shouldFail: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ft := NewFluentT(test)
+			ft.AssertThatString(tt.actual).HasSizeLessThan(tt.substring)
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
 func TestAssertableString_ContainsOnlyDigits(t *testing.T) {
 	tests := []struct {
 		name       string

@@ -80,6 +80,11 @@ func (s StringValue) HasSize(length int) bool {
 	return s.Size() == length
 }
 
+// HasSizeLessThan returns true if the string has size less than the given value else false.
+func (s StringValue) HasSizeLessThan(length int) bool {
+	return s.Size() < length
+}
+
 // Size returns the string size.
 func (s StringValue) Size() int {
 	return len(s.value)

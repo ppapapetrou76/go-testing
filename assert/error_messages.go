@@ -161,6 +161,10 @@ func shouldHaveSameSizeAs(actual types.Assertable, substr string) string {
 	return fmt.Sprintf("assertion failed: expected size of [%v] should be same as the size of [%+v], but it isn't", actual.Value(), substr)
 }
 
+func shouldHaveLessSizeThan(actual types.Assertable, substr string) string {
+	return fmt.Sprintf("assertion failed: expected size of [%v] should be less than the size of [%+v], but it isn't", actual.Value(), substr)
+}
+
 func shouldHaveType(actual types.Assertable, value interface{}) string {
 	return fmt.Sprintf("assertion failed: expected value of = %+v, to have type of %T but it hasn't", actual.Value(), value)
 }
