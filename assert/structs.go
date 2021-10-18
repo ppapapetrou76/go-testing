@@ -24,6 +24,7 @@ func ThatStruct(t *testing.T, actual interface{}) AssertableStruct {
 // IsEqualTo asserts if the expected structure is equal to the assertable structure value
 // It errors the tests if the compared values (actual VS expected) are not equal.
 func (s AssertableStruct) IsEqualTo(expected interface{}) AssertableStruct {
+	s.t.Helper()
 	if !s.actual.IsEqualTo(expected) {
 		s.t.Error(shouldBeEqual(s.actual, expected))
 	}
@@ -33,6 +34,7 @@ func (s AssertableStruct) IsEqualTo(expected interface{}) AssertableStruct {
 // IsNotEqualTo asserts if the expected structure is not equal to the assertable structure value
 // It errors the tests if the compared values (actual VS expected) are equal.
 func (s AssertableStruct) IsNotEqualTo(expected interface{}) AssertableStruct {
+	s.t.Helper()
 	if s.actual.IsEqualTo(expected) {
 		s.t.Error(shouldNotBeEqual(s.actual, expected))
 	}

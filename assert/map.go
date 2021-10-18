@@ -25,6 +25,7 @@ func ThatMap(t *testing.T, actual interface{}) AssertableMap {
 // IsEqualTo asserts if the expected map is equal to the assertable map value
 // It errors the tests if the compared values (actual VS expected) are not equal.
 func (a AssertableMap) IsEqualTo(expected interface{}) AssertableMap {
+	a.t.Helper()
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
 		return a
@@ -39,6 +40,7 @@ func (a AssertableMap) IsEqualTo(expected interface{}) AssertableMap {
 // IsNotEqualTo asserts if the expected map is not equal to the assertable map value
 // It errors the tests if the compared values (actual VS expected) are equal.
 func (a AssertableMap) IsNotEqualTo(expected interface{}) AssertableMap {
+	a.t.Helper()
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
 		return a
@@ -52,6 +54,7 @@ func (a AssertableMap) IsNotEqualTo(expected interface{}) AssertableMap {
 // HasSize asserts if the assertable string map has the expected length size
 // It errors the test if it doesn't have the expected size.
 func (a AssertableMap) HasSize(size int) AssertableMap {
+	a.t.Helper()
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
 		return a
@@ -64,6 +67,7 @@ func (a AssertableMap) HasSize(size int) AssertableMap {
 
 // IsEmpty asserts if the assertable string map is empty or not.
 func (a AssertableMap) IsEmpty() AssertableMap {
+	a.t.Helper()
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
 		return a
@@ -76,6 +80,7 @@ func (a AssertableMap) IsEmpty() AssertableMap {
 
 // IsNotEmpty asserts if the assertable string map is not empty.
 func (a AssertableMap) IsNotEmpty() AssertableMap {
+	a.t.Helper()
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
 		return a
@@ -92,6 +97,7 @@ func (a AssertableMap) IsNotEmpty() AssertableMap {
 // * the key is not comparable
 // * the asserted type is not a map.
 func (a AssertableMap) HasKey(elements interface{}) AssertableMap {
+	a.t.Helper()
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
 		return a
@@ -108,6 +114,7 @@ func (a AssertableMap) HasKey(elements interface{}) AssertableMap {
 // * the key is not comparable
 // * the asserted type is not a map.
 func (a AssertableMap) HasValue(elements interface{}) AssertableMap {
+	a.t.Helper()
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
 		return a
@@ -120,10 +127,11 @@ func (a AssertableMap) HasValue(elements interface{}) AssertableMap {
 
 // HasEntry asserts if the assertable map has the given entry
 // It errors the test if
-// * they entry can't be found
+// * the entry can't be found
 // * the key is not comparable
 // * the asserted type is not a map.
 func (a AssertableMap) HasEntry(value types.MapEntry) AssertableMap {
+	a.t.Helper()
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
 		return a
@@ -140,6 +148,7 @@ func (a AssertableMap) HasEntry(value types.MapEntry) AssertableMap {
 // * the key is not comparable
 // * the asserted type is not a map.
 func (a AssertableMap) HasNotKey(elements interface{}) AssertableMap {
+	a.t.Helper()
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
 		return a
@@ -156,6 +165,7 @@ func (a AssertableMap) HasNotKey(elements interface{}) AssertableMap {
 // * the key is not comparable
 // * the asserted type is not a map.
 func (a AssertableMap) HasNotValue(elements interface{}) AssertableMap {
+	a.t.Helper()
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
 		return a
@@ -168,10 +178,11 @@ func (a AssertableMap) HasNotValue(elements interface{}) AssertableMap {
 
 // HasNotEntry asserts if the assertable map has not the given entry
 // It errors the test if
-// * they entry can be found
+// * the entry can be found
 // * the key is not comparable
 // * the asserted type is not a map.
 func (a AssertableMap) HasNotEntry(value types.MapEntry) AssertableMap {
+	a.t.Helper()
 	if !values.IsMap(a.actual.Value()) {
 		a.t.Error(shouldBeMap(a.actual))
 		return a
