@@ -84,11 +84,11 @@ For the following types basic assertions are supported
     * [x] EndsWith
     * [ ] HasLineCount
     * [x] HasSameSizeAs
-    * [ ] HasSizeBetween
-    * [ ] HasSizeGreaterThan
-    * [ ] HasSizeGreaterThanOrEqualTo
+    * [X] HasSizeBetween
+    * [x] HasSizeGreaterThan
+    * [x] HasSizeGreaterThanOrEqualTo
     * [x] HasSizeLessThan
-    * [ ] HasSizeLessThanOrEqualTo
+    * [x] HasSizeLessThanOrEqualTo
     * [x] IsEqualToIgnoringCase
     * [ ] IsEqualToIgnoringNewLines
     * [x] IsEqualToIgnoringWhitespace

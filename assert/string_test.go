@@ -645,6 +645,138 @@ func TestAssertableString_HasSameSizeAs(t *testing.T) {
 	}
 }
 
+func TestAssertableString_HasSizeBetween(t *testing.T) {
+	tests := []struct {
+		name        string
+		actual      string
+		shortString string
+		longString  string
+		shouldFail  bool
+	}{
+		{
+			name:        "should fail if it has greater size than the longString",
+			actual:      "I'm not a happy big man",
+			shortString: "I'm a happy orc",
+			longString:  "I'm not a happy orc",
+			shouldFail:  true,
+		},
+		{
+			name:        "should fail if it has the same size as the longString",
+			actual:      "I'm a happy big man",
+			shortString: "I'm a happy orc",
+			longString:  "I'm not a happy orc",
+			shouldFail:  true,
+		},
+		{
+			name:        "should fail if it has less size than the shortString",
+			actual:      "I'm a orc",
+			shortString: "I'm a happy orc",
+			longString:  "I'm not a happy orc",
+			shouldFail:  true,
+		},
+		{
+			name:        "should fail if it has the same size as the shortString",
+			actual:      "I'm a happy man",
+			shortString: "I'm a happy orc",
+			longString:  "I'm not a happy orc",
+			shouldFail:  true,
+		},
+		{
+			name:        "should succeed if it has size between shortString and longString",
+			actual:      "I'm a happy big man",
+			shortString: "I'm a happy orc",
+			longString:  "I'm not a happy big orc",
+			shouldFail:  false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ft := NewFluentT(test)
+			ft.AssertThatString(tt.actual).HasSizeBetween(tt.shortString, tt.longString)
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
+func TestAssertableString_HasSizeGreaterThan(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     string
+		substring  string
+		shouldFail bool
+	}{
+		{
+			name:       "should fail if it has the same size",
+			actual:     "I'm a happy man",
+			substring:  "I'm a happy orc",
+			shouldFail: true,
+		},
+		{
+			name:       "should fail if it has less size",
+			actual:     "I'm a happy man",
+			substring:  "I'm a happy woman",
+			shouldFail: true,
+		},
+		{
+			name:       "should succeed if it has bigger size",
+			actual:     "I'm a happy big man",
+			substring:  "I'm a happy orc",
+			shouldFail: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ft := NewFluentT(test)
+			ft.AssertThatString(tt.actual).HasSizeGreaterThan(tt.substring)
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
+func TestAssertableString_HasSizeGreaterThanOrEqual(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     string
+		substring  string
+		shouldFail bool
+	}{
+		{
+			name:       "should fail if it has less size",
+			actual:     "I'm a happy man",
+			substring:  "I'm a happy woman",
+			shouldFail: true,
+		},
+		{
+			name:       "should succeed if it has bigger size",
+			actual:     "I'm a happy big man",
+			substring:  "I'm a happy orc",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if it has the same size",
+			actual:     "I'm a happy man",
+			substring:  "I'm a happy orc",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if it has the same size and empty",
+			actual:     "",
+			substring:  "",
+			shouldFail: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ft := NewFluentT(test)
+			ft.AssertThatString(tt.actual).HasSizeGreaterThanOrEqualTo(tt.substring)
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
 func TestAssertableString_HasSizeLessThan(t *testing.T) {
 	tests := []struct {
 		name       string
@@ -676,6 +808,48 @@ func TestAssertableString_HasSizeLessThan(t *testing.T) {
 			test := &testing.T{}
 			ft := NewFluentT(test)
 			ft.AssertThatString(tt.actual).HasSizeLessThan(tt.substring)
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
+func TestAssertableString_HasSizeLessThanOrEqualTo(t *testing.T) {
+	tests := []struct {
+		name       string
+		actual     string
+		substring  string
+		shouldFail bool
+	}{
+		{
+			name:       "should fail if it has bigger size",
+			actual:     "I'm a happy big man",
+			substring:  "I'm a happy orc",
+			shouldFail: true,
+		},
+		{
+			name:       "should succeed if it has less size",
+			actual:     "I'm a happy man",
+			substring:  "I'm a happy woman",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if it has the same size",
+			actual:     "I'm a happy man",
+			substring:  "I'm a happy orc",
+			shouldFail: false,
+		},
+		{
+			name:       "should succeed if it has the same size and empty",
+			actual:     "",
+			substring:  "",
+			shouldFail: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ft := NewFluentT(test)
+			ft.AssertThatString(tt.actual).HasSizeLessThanOrEqualTo(tt.substring)
 			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
 		})
 	}

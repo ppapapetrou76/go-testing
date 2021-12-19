@@ -161,8 +161,24 @@ func shouldHaveSameSizeAs(actual types.Assertable, substr string) string {
 	return fmt.Sprintf("assertion failed: expected size of [%v] should be same as the size of [%+v], but it isn't", actual.Value(), substr)
 }
 
+func shouldHaveSizeBetween(actual types.Assertable, shortString, longString string) string {
+	return fmt.Sprintf("assertion failed: expected size of [%v] should be greater then the size of [%+v] and less than the size of [%+v], but it isn't", actual.Value(), shortString, longString)
+}
+
 func shouldHaveLessSizeThan(actual types.Assertable, substr string) string {
 	return fmt.Sprintf("assertion failed: expected size of [%v] should be less than the size of [%+v], but it isn't", actual.Value(), substr)
+}
+
+func shouldHaveLessSizeThanOrEqual(actual types.Assertable, substr string) string {
+	return fmt.Sprintf("assertion failed: expected size of [%v] should be less than or equal to the size of [%+v], but it isn't", actual.Value(), substr)
+}
+
+func shouldHaveGreaterSizeThan(actual types.Assertable, substr string) string {
+	return fmt.Sprintf("assertion failed: expected size of [%v] should be greater than the size of [%+v], but it isn't", actual.Value(), substr)
+}
+
+func shouldHaveGreaterSizeThanOrEqual(actual types.Assertable, substr string) string {
+	return fmt.Sprintf("assertion failed: expected size of [%v] should be greater than or equalto the size of [%+v], but it isn't", actual.Value(), substr)
 }
 
 func shouldHaveType(actual types.Assertable, value interface{}) string {
