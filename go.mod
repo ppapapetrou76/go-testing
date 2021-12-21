@@ -2,7 +2,7 @@ module github.com/ppapapetrou76/go-testing
 
 go 1.17
 
-require github.com/r3labs/diff/v2 v2.14.4
+require github.com/r3labs/diff/v2 v2.14.5
 
 require (
 	github.com/golang/protobuf v1.3.1 // indirect
