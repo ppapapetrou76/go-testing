@@ -95,5 +95,5 @@ For the following types basic assertions are supported
     * [x] IsLowerCase
     * [x] IsNotEqualToIgnoringCase
     * [x] IsNotEqualToIgnoringWhitespace
-    * [ ] IsSubstringOf
+    * [x] IsSubstringOf
     * [x] IsUpperCase

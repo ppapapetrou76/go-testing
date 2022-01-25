@@ -113,6 +113,10 @@ func shouldNotContain(actual types.Assertable, elements interface{}) string {
 	return fmt.Sprintf("assertion failed: containable [%v] should not contain [%+v], but it does", actual.Value(), elements)
 }
 
+func shouldBeSubstringOf(actual types.Assertable, elements interface{}) string {
+	return fmt.Sprintf("assertion failed: containable [%v] should be substring of [%+v], but it does", actual.Value(), elements)
+}
+
 func shouldBeMap(actual types.Assertable) string {
 	return fmt.Sprintf("assertion failed: assertable should be a map but it is %T", reflect.ValueOf(actual.Value()).Kind())
 }
