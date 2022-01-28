@@ -30,6 +30,13 @@ func IgnoringWhiteSpaces() StringOpt {
 	}
 }
 
+// IgnoringNewLines removes the new lines from the value under assertion.
+func IgnoringNewLines() StringOpt {
+	return func(c *AssertableString) {
+		c.actual = c.actual.AddDecorator(values.RemoveNewLines)
+	}
+}
+
 // ThatString returns an AssertableString structure initialized with the test reference and the actual value to assert.
 func ThatString(t *testing.T, actual string, opts ...StringOpt) AssertableString {
 	t.Helper()

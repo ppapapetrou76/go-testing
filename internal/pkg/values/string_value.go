@@ -20,6 +20,12 @@ func RemoveSpaces(value string) string {
 	return strings.ReplaceAll(value, " ", "")
 }
 
+// RemoveNewLines removes all new lines from the given string.
+func RemoveNewLines(value string) string {
+	value = strings.ReplaceAll(value, "\r\n", "")
+	return strings.ReplaceAll(value, "\n", "")
+}
+
 // IsEqualTo returns true if the value is equal to the expected value, else false.
 func (s StringValue) IsEqualTo(expected interface{}) bool {
 	return s.DecoratedValue() == s.decoratedValue(expected)

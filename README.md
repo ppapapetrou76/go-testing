@@ -90,7 +90,7 @@ For the following types basic assertions are supported
     * [x] HasSizeLessThan
     * [x] HasSizeLessThanOrEqualTo
     * [x] IsEqualToIgnoringCase
-    * [ ] IsEqualToIgnoringNewLines
+    * [x] IsEqualToIgnoringNewLines
     * [x] IsEqualToIgnoringWhitespace
     * [x] IsLowerCase
     * [x] IsNotEqualToIgnoringCase
