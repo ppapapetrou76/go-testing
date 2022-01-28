@@ -202,6 +202,16 @@ func (a AssertableString) DoesNotContain(substring string) AssertableString {
 	return a
 }
 
+// IsSubstringOf asserts if the assertable string is a substring of the given element
+// It errors the test if it does not contain it.
+func (a AssertableString) IsSubstringOf(someString string) AssertableString {
+	a.t.Helper()
+	if !a.actual.IsSubstringOf(someString) {
+		a.t.Error(shouldBeSubstringOf(a.actual, someString))
+	}
+	return a
+}
+
 // StartsWith asserts if the assertable string starts with the given substring
 // It errors the test if it doesn't start with the given substring.
 func (a AssertableString) StartsWith(substring string) AssertableString {

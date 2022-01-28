@@ -81,6 +81,11 @@ func (s StringValue) DoesNotContain(expected interface{}) bool {
 	return !s.Contains(s.decoratedValue(expected))
 }
 
+// IsSubstringOf returns true if the string is substring of the given string.
+func (s StringValue) IsSubstringOf(expected interface{}) bool {
+	return strings.Contains(NewStringValue(s.decoratedValue(expected)).value, s.DecoratedValue())
+}
+
 // HasSize returns true if the string has the expected size else false.
 func (s StringValue) HasSize(length int) bool {
 	return s.Size() == length
