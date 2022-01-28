@@ -527,6 +527,50 @@ func TestAssertableString_DoesNotContain(t *testing.T) {
 	}
 }
 
+func TestAssertableString_IsSubstringOf(t *testing.T) {
+	tests := []struct {
+		name            string
+		actual          string
+		containerString string
+		shouldFail      bool
+		stringOpts      []StringOpt
+	}{
+		{
+			name:            "should succeed if it does not contain the expected sub-string",
+			actual:          "happy man",
+			containerString: "I'm a happy man",
+			shouldFail:      false,
+		},
+		{
+			name:            "should fail if it is substring of the containerString",
+			actual:          "I'M a HAPPY",
+			containerString: "I'm a happy man",
+			shouldFail:      true,
+		},
+		{
+			name:            "should succeed if it is substring of the containerString with ignoring case",
+			actual:          "I'M a HAPPY",
+			containerString: "I'm a happy man",
+			shouldFail:      false,
+			stringOpts:      []StringOpt{IgnoringCase()},
+		},
+		{
+			name:            "should succeed if is is an empty string",
+			actual:          "",
+			containerString: "I'm a happy man",
+			shouldFail:      false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := &testing.T{}
+			ft := NewFluentT(test)
+			ft.AssertThatString(tt.actual, tt.stringOpts...).IsSubstringOf(tt.containerString)
+			ThatBool(t, test.Failed()).IsEqualTo(tt.shouldFail)
+		})
+	}
+}
+
 func TestAssertableString_StartsWith(t *testing.T) {
 	tests := []struct {
 		name       string
