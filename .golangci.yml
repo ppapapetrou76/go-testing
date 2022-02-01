@@ -16,6 +16,7 @@ issues:
         - paralleltest
         - testpackage
         - goerr113
+        - varnamelen
     - path: github/client
       linters:
         - gosec
