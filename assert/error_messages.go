@@ -16,20 +16,20 @@ func shouldBeEqual(actual types.Assertable, expected interface{}) string {
 
 	if !skipDetailedDiff {
 		diffs, _ := diff.Diff(expected, actual.Value())
-		for _, d := range diffs {
-			if len(d.Path) == 0 {
+		for _, diff := range diffs {
+			if len(diff.Path) == 0 {
 				continue
 			}
-			switch d.Type {
+			switch diff.Type {
 			case "delete":
-				path := strings.Join(d.Path, ":")
-				diffMessage.WriteString(fmt.Sprintf("actual value of %+v is expected but missing from %s\n", d.To, path))
+				path := strings.Join(diff.Path, ":")
+				diffMessage.WriteString(fmt.Sprintf("actual value of %+v is expected but missing from %s\n", diff.To, path))
 			case "create":
-				path := strings.Join(d.Path, ":")
-				diffMessage.WriteString(fmt.Sprintf("actual value of %+v is not expected in %s\n", d.To, path))
+				path := strings.Join(diff.Path, ":")
+				diffMessage.WriteString(fmt.Sprintf("actual value of %+v is not expected in %s\n", diff.To, path))
 			case "update":
-				path := strings.Join(d.Path, ":")
-				diffMessage.WriteString(fmt.Sprintf("actual value of %+v is different in %s from %+v\n", d.To, path, d.From))
+				path := strings.Join(diff.Path, ":")
+				diffMessage.WriteString(fmt.Sprintf("actual value of %+v is different in %s from %+v\n", diff.To, path, diff.From))
 			}
 		}
 	}
