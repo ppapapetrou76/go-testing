@@ -564,7 +564,7 @@ func TestAssertableString_IsSubstringOf(t *testing.T) {
 			stringOpts:      []StringOpt{IgnoringCase()},
 		},
 		{
-			name:            "should succeed if is is an empty string",
+			name:            "should succeed if it is an empty string",
 			actual:          "",
 			containerString: "I'm a happy man",
 			shouldFail:      false,
