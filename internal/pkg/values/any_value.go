@@ -14,7 +14,7 @@ type AnyValue struct {
 
 // IsEqualTo returns true if the value is equal to the expected value, else false.
 func (s AnyValue) IsEqualTo(expected interface{}) bool {
-	var comparable types.Comparable
+	var cmprable types.Comparable
 
 	if reflect.ValueOf(s.Value()).Kind() != reflect.ValueOf(expected).Kind() {
 		return false
@@ -22,22 +22,22 @@ func (s AnyValue) IsEqualTo(expected interface{}) bool {
 
 	switch expected.(type) {
 	case string:
-		comparable = NewStringValue(s.value)
+		cmprable = NewStringValue(s.value)
 	case int, int8, int16, int32, int64:
-		comparable = NewIntValue(s.value)
+		cmprable = NewIntValue(s.value)
 	case uint, uint8, uint16, uint32, uint64:
-		comparable = NewUIntValue(s.value)
+		cmprable = NewUIntValue(s.value)
 	case bool:
-		comparable = NewBoolValue(s.value)
+		cmprable = NewBoolValue(s.value)
 	case struct{}:
-		comparable = NewStructValue(s.value)
+		cmprable = NewStructValue(s.value)
 	case []string:
-		comparable = NewSliceValue(s.value)
+		cmprable = NewSliceValue(s.value)
 	default:
 		return reflect.DeepEqual(s.value, expected)
 	}
 
-	return comparable.IsEqualTo(expected)
+	return cmprable.IsEqualTo(expected)
 }
 
 // Value returns the actual value of the structure.
@@ -70,7 +70,7 @@ func (s AnyValue) IsNil() bool {
 	if s.value == nil {
 		return true
 	}
-	// nolint:exhaustive //covered by default case
+	//nolint:exhaustive //covered by default case
 	switch reflect.TypeOf(s.value).Kind() {
 	case reflect.Ptr, reflect.Map, reflect.Array, reflect.Chan, reflect.Slice:
 		return reflect.ValueOf(s.value).IsNil()

@@ -11,7 +11,7 @@ type FluentT struct {
 }
 
 // NewFluentT creates a new Fluent testing.
-func NewFluentT(t *testing.T) *FluentT { // nolint
+func NewFluentT(t *testing.T) *FluentT { //nolint
 	return &FluentT{
 		t: t,
 	}
