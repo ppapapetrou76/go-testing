@@ -32,11 +32,12 @@ linters:
     - godox
     - gomnd
     - wsl
+    - exhaustivestruct
+    - exhaustruct
     # should be enabled shortly
     - funlen
     - dupl
     - nlreturn
-    - exhaustivestruct
     - cyclop
 
 linters-settings:
