@@ -34,6 +34,7 @@ linters:
     - wsl
     - exhaustivestruct
     - exhaustruct
+    - gci
     # should be enabled shortly
     - funlen
     - dupl
@@ -52,10 +53,10 @@ linters-settings:
     min-complexity: 25
 
   misspell:
-    locale: neutral
+    locale: US
 
   goimports:
-    local-prefixes: github.com/ppapapetrou76/virtual-assistant
+    local-prefixes: github.com/ppapapetrou76/go-testing
 
   gocritic:
     enabled-tags:
