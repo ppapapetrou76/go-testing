@@ -5,9 +5,10 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/r3labs/diff/v3"
+
 	utils2 "github.com/ppapapetrou76/go-testing/internal/pkg/utils"
 	"github.com/ppapapetrou76/go-testing/types"
-	"github.com/r3labs/diff/v3"
 )
 
 func shouldBeEqual(actual types.Assertable, expected interface{}) string {
