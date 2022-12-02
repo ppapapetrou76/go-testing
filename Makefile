@@ -60,3 +60,10 @@ test:
 	@ echo "-> Running unit tests..."
 	@ go test -timeout 10s -p 4 -race -count=1 ./...
 	@ echo "-> Done."
+
+## Run vulnerability checks
+vuln:
+	@ echo "-> Running vulnerability checks..."
+	@ go install golang.org/x/vuln/cmd/govulncheck@latest
+	@ govulncheck ./...
+	@ echo "-> Done."

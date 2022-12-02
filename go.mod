@@ -1,6 +1,6 @@
 module github.com/ppapapetrou76/go-testing
 
-go 1.17
+go 1.18
 
 require github.com/r3labs/diff/v3 v3.0.0
 
